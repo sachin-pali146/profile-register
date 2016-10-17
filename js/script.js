@@ -10,6 +10,7 @@ profileApp.validator = {
     regexPin: /^[0-9]{6}$/,
     checkboxAddress: document.getElementById('checkboxAddress'),
     dob: document.getElementById('dob'),
+    currentDate: new Date(),
     homeStreet: document.getElementById('homeStreet'),
     homeCity: document.getElementById('homeCity'),
     homeState: document.getElementById('homeState'),
@@ -43,7 +44,7 @@ profileApp.validator = {
         return this.regexAddress.exec(addressInput.value);
     },
     validateDOB: function () {
-        return Date(this.dob.value) < Date();
+        return this.dob.value < this.currentDate;
     },
     addErrorclass: function (currentParentElement) {
         currentParentElement.classList.add('has-feedback');
@@ -76,69 +77,68 @@ profileApp.validator = {
         for (var i = 0; i < this.inputElements.length; i++) {
             var currentParentElement = this.inputElements[i].parentElement;
             if (this.nameChecker.indexOf(this.inputElements[i].id) !== -1) {
-                if (!this.validateName(this.inputElements[i])) {
-                    if (!currentParentElement.classList.contains('has-error')) {
-                        this.addErrorclass(currentParentElement);
-                    }
+                if ((!this.validateName(this.inputElements[i])) && (!currentParentElement.classList.contains('has-error'))) {
+
+                    this.addErrorclass(currentParentElement);
+
                 }
-                else if (currentParentElement.classList.contains('has-error')) {
+                else if ((this.validateName(this.inputElements[i])) && (currentParentElement.classList.contains('has-error'))) {
                     this.removeErrorClass(currentParentElement);
                 }
             }
             else if (this.phoneChecker.indexOf(this.inputElements[i].id) !== -1) {
-                if (!this.validatePhone(this.inputElements[i])) {
-                    if (!currentParentElement.classList.contains('has-error')) {
-                        this.addErrorclass(currentParentElement);
-                    }
+                if ((!this.validatePhone(this.inputElements[i])) && (!currentParentElement.classList.contains('has-error'))) {
+
+                    this.addErrorclass(currentParentElement);
+
                 }
-                else if (currentParentElement.classList.contains('has-error')) {
+                else if ((this.validatePhone(this.inputElements[i])) && (currentParentElement.classList.contains('has-error'))) {
                     this.removeErrorClass(currentParentElement);
                 }
             }
             else if (this.addressChecker.indexOf(this.inputElements[i].id) !== -1) {
-                if (!this.validateAddress(this.inputElements[i])) {
-                    if (!currentParentElement.classList.contains('has-error')) {
-                        this.addErrorclass(currentParentElement);
-                    }
+                if ((!this.validateAddress(this.inputElements[i])) && (!currentParentElement.classList.contains('has-error'))) {
+
+                    this.addErrorclass(currentParentElement);
+
                 }
-                else if (currentParentElement.classList.contains('has-error')) {
+                else if ((this.validateAddress(this.inputElements[i])) && (currentParentElement.classList.contains('has-error'))) {
                     this.removeErrorClass(currentParentElement);
                 }
             }
             else if (this.pinChecker.indexOf(this.inputElements[i].id) !== -1) {
-                if (!this.validatePin(this.inputElements[i])) {
-                    if (!currentParentElement.classList.contains('has-error')) {
-                        this.addErrorclass(currentParentElement);
-                    }
+                if ((!this.validatePin(this.inputElements[i])) && (!currentParentElement.classList.contains('has-error'))) {
+
+                    this.addErrorclass(currentParentElement);
+
                 }
-                else if (currentParentElement.classList.contains('has-error')) {
+                else if ((this.validatePin(this.inputElements[i])) && (currentParentElement.classList.contains('has-error'))) {
                     this.removeErrorClass(currentParentElement);
                 }
             }
 
         }
 
-
-        if (!this.validateDOB()) {
-            currentParentElement = this.dob.parentElement;
-            if (!currentParentElement.classList.contains('has-error')) {
-                this.addErrorclass(currentParentElement);
-            }
-
-            else if (currentParentElement.classList.contains('has-error')) {
-                this.removeErrorClass(currentParentElement);
-            }
+        currentParentElement = this.dob.parentElement;
+        if (!this.validateDOB() && (!currentParentElement.classList.contains('has-error'))) {
+            this.addErrorclass(currentParentElement);
         }
+        else if (this.validateDOB() && currentParentElement.classList.contains('has-error')) {
+            this.removeErrorClass(currentParentElement);
+        }
+
 
         if (!this.flag) {
             var helpBlock = document.getElementById('helpBlock');
-            helpBlock.parentElement.removeChild(helpBlock);
+            if (helpBlock) {
+                helpBlock.parentElement.removeChild(helpBlock);
+            }
         }
         else if (!document.getElementById('helpBlock')) {
-            var helpBlock = document.createElement("span");
-            helpBlock.innerHTML = '<span id="helpBlock" class="help-block text-danger block-center">Please correct the columns with errors.</span>';
+            var helpSpan = document.createElement("span");
+            helpSpan.innerHTML = '<span id="helpBlock" class="help-block text-danger block-center">Please correct the columns with errors.</span>';
             var validate = document.getElementById('validate');
-            validate.parentElement.insertBefore(helpBlock, validate);
+            validate.parentElement.insertBefore(helpSpan, validate);
         }
     }
 };

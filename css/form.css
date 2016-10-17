@@ -1,9 +1,11 @@
 .help-block {
     color: #a94442;
 }
+
 .validate {
     text-align: center;
 }
-#validate {
-    width : 30%;
+
+.validate input {
+    width: 30%;
 }
