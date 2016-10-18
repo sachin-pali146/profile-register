@@ -31,22 +31,28 @@ profileApp.validator = {
     pinChecker: ['homePin', 'officePin'],
     errorSpan: document.createElement('span'),
 
-    validateName: function (nameInput) {
-        return this.regexName.exec(nameInput.value);
+    validateInput: function (input) {
+        if (this.nameChecker.indexOf(input.id) !== -1) {
+            return this.regexName.exec(input.value);
+        }
+        else if (this.addressChecker.indexOf(input) !== -1) {
+            return this.regexAddress.exec(input.value);
+        }
+        else if (this.phoneChecker.indexOf(input) !== -1) {
+            return this.regexPhone.exec(input.value);
+        }
+        else if (this.pinChecker.indexOf(input) !== -1) {
+            return this.regexPin.exec(input.value);
+        }
+        else if (input.id === 'dob') {
+            var dobDate = new Date(input.value);
+            return dobDate < this.currentDate;
+        }
+        else {
+            return true;
+        }
     },
-    validatePhone: function (phoneInput) {
-        return this.regexPhone.exec(phoneInput.value);
-    },
-    validatePin: function (pinInput) {
-        return this.regexPin.exec(pinInput.value);
-    },
-    validateAddress: function (addressInput) {
-        return this.regexAddress.exec(addressInput.value);
-    },
-    validateDOB: function () {
-        return this.dob.value < this.currentDate;
-    },
-    addErrorclass: function (currentParentElement) {
+    addErrorClass: function (currentParentElement) {
         currentParentElement.classList.add('has-feedback');
         currentParentElement.classList.add('has-error');
         $('<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>').appendTo(currentParentElement);
@@ -73,63 +79,22 @@ profileApp.validator = {
         }
     },
     validateInputElements: function () {
-
-        for (var i = 0; i < this.inputElements.length; i++) {
+        var inputElementLength = this.inputElements.length;
+        for (var i = 0; i < inputElementLength; i++) {
             var currentParentElement = this.inputElements[i].parentElement;
-            if (this.nameChecker.indexOf(this.inputElements[i].id) !== -1) {
-                if ((!this.validateName(this.inputElements[i])) && (!currentParentElement.classList.contains('has-error'))) {
 
-                    this.addErrorclass(currentParentElement);
-
-                }
-                else if ((this.validateName(this.inputElements[i])) && (currentParentElement.classList.contains('has-error'))) {
-                    this.removeErrorClass(currentParentElement);
-                }
+            if (!this.validateInput(this.inputElements[i]) && (!currentParentElement.classList.contains('has-error'))) {
+                this.addErrorClass(currentParentElement);
             }
-            else if (this.phoneChecker.indexOf(this.inputElements[i].id) !== -1) {
-                if ((!this.validatePhone(this.inputElements[i])) && (!currentParentElement.classList.contains('has-error'))) {
-
-                    this.addErrorclass(currentParentElement);
-
-                }
-                else if ((this.validatePhone(this.inputElements[i])) && (currentParentElement.classList.contains('has-error'))) {
-                    this.removeErrorClass(currentParentElement);
-                }
-            }
-            else if (this.addressChecker.indexOf(this.inputElements[i].id) !== -1) {
-                if ((!this.validateAddress(this.inputElements[i])) && (!currentParentElement.classList.contains('has-error'))) {
-
-                    this.addErrorclass(currentParentElement);
-
-                }
-                else if ((this.validateAddress(this.inputElements[i])) && (currentParentElement.classList.contains('has-error'))) {
-                    this.removeErrorClass(currentParentElement);
-                }
-            }
-            else if (this.pinChecker.indexOf(this.inputElements[i].id) !== -1) {
-                if ((!this.validatePin(this.inputElements[i])) && (!currentParentElement.classList.contains('has-error'))) {
-
-                    this.addErrorclass(currentParentElement);
-
-                }
-                else if ((this.validatePin(this.inputElements[i])) && (currentParentElement.classList.contains('has-error'))) {
-                    this.removeErrorClass(currentParentElement);
-                }
+            else if (this.validateInput(this.inputElements[i]) && (currentParentElement.classList.contains('has-error'))) {
+                this.removeErrorClass(currentParentElement);
             }
 
         }
-
-        currentParentElement = this.dob.parentElement;
-        if (!this.validateDOB() && (!currentParentElement.classList.contains('has-error'))) {
-            this.addErrorclass(currentParentElement);
-        }
-        else if (this.validateDOB() && currentParentElement.classList.contains('has-error')) {
-            this.removeErrorClass(currentParentElement);
-        }
-
 
         if (!this.flag) {
             var helpBlock = document.getElementById('helpBlock');
+            
             if (helpBlock) {
                 helpBlock.parentElement.removeChild(helpBlock);
             }
@@ -150,7 +115,7 @@ document.getElementById('validate').onclick = function () {
         return false;
     }
     else {
-        window.alert("Your data has been submitted successfully");
+        window.alert('Your data has been submitted successfully');
     }
 };
 
