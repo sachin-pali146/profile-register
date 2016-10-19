@@ -8,22 +8,22 @@ profileApp.validator = {
     regexPhone: /^[0-9]{10}$/,
     regexAddress: /^[a-zA-Z0-9-_/: ]{2,50}$/,
     regexPin: /^[0-9]{6}$/,
-    checkboxAddress: document.getElementById('checkboxAddress'),
-    dob: document.getElementById('dob'),
+    checkboxAddress: $('#checkboxAddress'),
+    dob: $('#dob'),
     currentDate: new Date(),
-    homeStreet: document.getElementById('homeStreet'),
-    homeCity: document.getElementById('homeCity'),
-    homeState: document.getElementById('homeState'),
-    homePhone: document.getElementById('homePhone'),
-    homePin: document.getElementById('homePin'),
-    homeFax: document.getElementById('homeFax'),
-    officeStreet: document.getElementById('officeStreet'),
-    officeCity: document.getElementById('officeCity'),
-    officeState: document.getElementById('officeState'),
-    officePhone: document.getElementById('officePhone'),
-    officePin: document.getElementById('officePin'),
-    officeFax: document.getElementById('officeFax'),
-    inputElements: document.getElementsByTagName('input'),
+    homeStreet: $('#homeStreet'),
+    homeCity: $('#homeCity'),
+    homeState: $('#homeState'),
+    homePhone: $('#homePhone'),
+    homePin: $('#homePin'),
+    homeFax: $('#homeFax'),
+    officeStreet: $('#officeStreet'),
+    officeCity: $('#officeCity'),
+    officeState: $('#officeState'),
+    officePhone: $('#officePhone'),
+    officePin: $('#officePin'),
+    officeFax: $('#officeFax'),
+    inputElements: $('input'),
     nameChecker: ['firstName', 'lastName', 'homeCity', 'homeState', 'officeState',
         'employer', 'employment', 'officeCity'],
     phoneChecker: ['homePhone', 'homeFax', 'officePhone', 'officeFax'],
@@ -35,13 +35,13 @@ profileApp.validator = {
         if (this.nameChecker.indexOf(input.id) !== -1) {
             return this.regexName.exec(input.value);
         }
-        else if (this.addressChecker.indexOf(input) !== -1) {
+        else if (this.addressChecker.indexOf(input.id) !== -1) {
             return this.regexAddress.exec(input.value);
         }
-        else if (this.phoneChecker.indexOf(input) !== -1) {
+        else if (this.phoneChecker.indexOf(input.id) !== -1) {
             return this.regexPhone.exec(input.value);
         }
-        else if (this.pinChecker.indexOf(input) !== -1) {
+        else if (this.pinChecker.indexOf(input.id) !== -1) {
             return this.regexPin.exec(input.value);
         }
         else if (input.id === 'dob') {
@@ -53,74 +53,73 @@ profileApp.validator = {
         }
     },
     addErrorClass: function (currentParentElement) {
-        currentParentElement.classList.add('has-feedback');
-        currentParentElement.classList.add('has-error');
+        currentParentElement.addClass('has-feedback has-error');
         $('<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>').appendTo(currentParentElement);
         this.flag += 1;
     },
     removeErrorClass: function (currentParentElement) {
-        currentParentElement.classList.remove('has-feedback');
-        currentParentElement.classList.remove('has-error');
-        currentParentElement.removeChild(currentParentElement.childNodes[currentParentElement.childNodes.length - 1]);
+        currentParentElement.removeClass('has-feedback has-error');
+        currentParentElement.children().last().remove();
         this.flag -= 1;
     },
     checkAddress: function () {
-        if (this.checkboxAddress.checked) {
-            document.getElementById('officeAddress').disabled = true;
-            this.officeStreet.value = this.homeStreet.value;
-            this.officeCity.value = this.homeCity.value;
-            this.officeState.value = this.homeState.value;
-            this.officePin.value = this.homePin.value;
-            this.officePhone.value = this.homePhone.value;
-            this.officeFax.value = this.homeFax.value;
+        if (this.checkboxAddress.prop('checked')) {
+            $('#officeAddress').prop('disabled', true);
+            this.officeStreet.val(this.homeStreet.val());
+            this.officeCity.val(this.homeCity.val());
+            this.officeState.val(this.homeState.val());
+            this.officePin.val(this.homePin.val());
+            this.officePhone.val(this.homePhone.val());
+            this.officeFax.val(this.homeFax.val());
         }
         else {
-            document.getElementById('officeAddress').disabled = false;
+            $('#officeAddress').prop('disabled', false);
         }
     },
     validateInputElements: function () {
-        var inputElementLength = this.inputElements.length;
-        for (var i = 0; i < inputElementLength; i++) {
-            var currentParentElement = this.inputElements[i].parentElement;
+        var appObj = this;
+        this.inputElements.each(function () {
+            var currentParentElement = $(this).parent();
 
-            if (!this.validateInput(this.inputElements[i]) && (!currentParentElement.classList.contains('has-error'))) {
-                this.addErrorClass(currentParentElement);
+            if (!appObj.validateInput(this) && !currentParentElement.hasClass('has-error')) {
+                appObj.addErrorClass(currentParentElement);
             }
-            else if (this.validateInput(this.inputElements[i]) && (currentParentElement.classList.contains('has-error'))) {
-                this.removeErrorClass(currentParentElement);
+            else if (appObj.validateInput(this) && currentParentElement.hasClass('has-error')) {
+                appObj.removeErrorClass(currentParentElement);
             }
+        });
 
+        if (!appObj.flag && $("span").filter("#helpBlock").length) {
+            var helpBlock = $('#helpBlock');
+            helpBlock.parent().filter('#helpBlock').remove();
         }
-
-        if (!this.flag) {
-            var helpBlock = document.getElementById('helpBlock');
-            
-            if (helpBlock) {
-                helpBlock.parentElement.removeChild(helpBlock);
-            }
-        }
-        else if (!document.getElementById('helpBlock')) {
-            var helpSpan = document.createElement("span");
-            helpSpan.innerHTML = '<span id="helpBlock" class="help-block text-danger block-center">Please correct the columns with errors.</span>';
-            var validate = document.getElementById('validate');
-            validate.parentElement.insertBefore(helpSpan, validate);
+        else if (appObj.flag && $("span").filter("#helpBlock").length === 0) {
+            var helpSpan = $('<span id="helpBlock" class="help-block text-danger block-center">Please correct the columns with errors.</span>');
+            var validate = $('#validate');
+            helpSpan.insertBefore('#validate');
         }
     }
 };
 
-document.getElementById('validate').onclick = function () {
-    profileApp.validator.checkAddress();
-    profileApp.validator.validateInputElements();
-    if (profileApp.validator.flag) {
-        return false;
-    }
-    else {
-        window.alert('Your data has been submitted successfully');
-    }
-};
+$(document).ready(function () {
 
-document.getElementById('checkboxAddress').onchange = function () {
-    profileApp.validator.checkAddress();
-};
+    $('#checkboxAddress').change(function () {
+        profileApp.validator.checkAddress();
+    });
+
+    $('#validate').click(function () {
+        profileApp.validator.checkAddress();
+        profileApp.validator.validateInputElements();
+        if (profileApp.validator.flag) {
+            return false;
+        }
+        else {
+            window.alert('Your data has been submitted successfully');
+        }
+    });
+
+
+});
+
 
 
