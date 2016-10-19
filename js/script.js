@@ -95,7 +95,6 @@ profileApp.validator = {
         }
         else if (appObj.flag && $("span").filter("#helpBlock").length === 0) {
             var helpSpan = $('<span id="helpBlock" class="help-block text-danger block-center">Please correct the columns with errors.</span>');
-            var validate = $('#validate');
             helpSpan.insertBefore('#validate');
         }
     }
