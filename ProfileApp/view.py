@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 import os
 import cgi
@@ -8,11 +8,18 @@ from mysql.connector import Error
 
 
 def execute(query):
+    """
+    This function is used for creating the connection with database and executing the queries.
+
+    """
+
     try:
         conn = mysql.connector.connect(host='localhost',
                                        database='profiledb',
                                        user='root',
                                        password='mindfire')
+        print('hello')
+        print(query)
         if conn.is_connected():
             print('Connected to MySQL database')
             cursor = conn.cursor()
@@ -27,6 +34,9 @@ def execute(query):
 
 
 def get_formvalues():
+    """
+    This function is used to create dictionary for all the fields on Form.
+    """
     form = cgi.FieldStorage()
     dict_fields = {}
     for i in form:
@@ -41,10 +51,11 @@ if os.environ['REQUEST_METHOD'] == 'GET':
     print(f.read())
     f.close()
 elif os.environ['REQUEST_METHOD'] == 'POST':
+    print("Content-type:text/html\r\n\r\n")
     dict_fields = get_formvalues()
     e = Employee(dict_fields)
     insert_query = e.insert()
 
-    print("Content-type:text/html\r\n\r\n")
+
     print(dict_fields)
-    # execute(insert_query)
+    execute(insert_query)

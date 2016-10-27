@@ -5,8 +5,8 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
               integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="#">
-        <link rel="shortcut icon" href="./img/site.ico"/>
-        <link rel="stylesheet" href="./css/form.css">
+        <link rel="shortcut icon" href="./static/img/site.ico"/>
+        <link rel="stylesheet" href="./static/css/form.css">
         <title>Submit Your Details</title>
     </head>
     <body>
@@ -14,7 +14,7 @@
             <h1>Register Your Details with us.</h1>
 
             <div class="well">
-                <form class="form-horizontal" method="post" action="../../../../cgi-bin/save.py" target="_blank">
+                <form class="form-horizontal" method="post" action="view.py" target="_blank">
                     <div class="form-group">
                         <label for="prefix" class="control-label col-sm-3">Prefix :</label>
 
@@ -39,6 +39,13 @@
 
                         <div class="col-sm-9">
                             <input name="lastName" class="form-control" type="text" id="lastName">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="control-label col-sm-3">Email ID :</label>
+
+                        <div class="col-sm-9">
+                            <input name="email" class="form-control" type="email" id="email">
                         </div>
                     </div>
                     <div class="form-group">
@@ -198,6 +205,6 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
                 integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
                 crossorigin="anonymous"></script>
-        <script src="./js/script.js"></script>
+        <script src="./static/js/script.js"></script>
     </body>
 </html>
