@@ -36,7 +36,7 @@ class Employee:
             self.flag = False
         return self.flag
 
-    def select(self, *args):
+    def select_employee(self, *args):
         self.query = "SELECT {} FROM employee".format(','.join(args))
         return self.query
 

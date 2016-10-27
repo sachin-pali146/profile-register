@@ -18,8 +18,7 @@ def execute(query):
                                        database='profiledb',
                                        user='root',
                                        password='mindfire')
-        print('hello')
-        print(query)
+
         if conn.is_connected():
             print('Connected to MySQL database')
             cursor = conn.cursor()
@@ -47,7 +46,7 @@ def get_formvalues():
 if os.environ['REQUEST_METHOD'] == 'GET':
     print("Content-type: text/html")
     print('')
-    f = open('./template/index.html')
+    f = open('./template/login.html')
     print(f.read())
     f.close()
 elif os.environ['REQUEST_METHOD'] == 'POST':
@@ -55,7 +54,7 @@ elif os.environ['REQUEST_METHOD'] == 'POST':
     dict_fields = get_formvalues()
     e = Employee(dict_fields)
     insert_query = e.insert()
-
-
-    print(dict_fields)
     execute(insert_query)
+    f = open('./template/login.html')
+    print(f.read())
+    f.close()

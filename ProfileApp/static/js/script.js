@@ -8,6 +8,7 @@ profileApp.validator = {
     regexPhone: /^[0-9]{10}$/,
     regexAddress: /^[a-zA-Z0-9-_/: ]{2,50}$/,
     regexPin: /^[0-9]{6}$/,
+    regexEmail: /^[a-zA-Z0-9._%-]+@[a-zA-Z0-9._%-]+.[a-zA-Z]{2,6}$/,
     checkboxAddress: $('#checkboxAddress'),
     dob: $('#dob'),
     currentDate: new Date(),
@@ -47,6 +48,9 @@ profileApp.validator = {
         else if (input.id === 'dob') {
             var dobDate = new Date(input.value);
             return dobDate < this.currentDate;
+        }
+        else if (input.id === 'email') {
+            return this.regexEmail.exec(input.value);
         }
         else {
             return true;
