@@ -20,6 +20,7 @@ class Employee:
 
     def validation(self):
         self.flag = True
+        print(self.image.filename)
         if not re.match("^[a-zA-Z0-9._%-]+@[a-zA-Z0-9._%-]+.[a-zA-Z]{2,6}$", self.email):
             print("Validation issue with email")
             self.flag = False
@@ -35,6 +36,11 @@ class Employee:
         if not re.match("^[a-zA-Z]{2,30}$", self.employment):
             print("Validation issue with Employment")
             self.flag = False
+        if not (len(self.image.filename.split('.')) < 1 or (self.image.filename.split('.')[-1].upper() in ["GIF", "PNG", "JPG", "JPEG"])):
+            print("Validation issue with Image")
+            self.flag = False
+
+
         return self.flag
 
     def select_employee(self, *args):
@@ -59,7 +65,7 @@ class Employee:
             return "INSERT INTO employee (firstName,lastName,email, dob, image, prefix, employment, employer, " \
                "maritalStatus, preferCommun)" \
                "VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" \
-               % (self.first_name, self.last_name, self.email, self.dob, self.image, self.prefix, self.employment,
+               % (self.first_name, self.last_name, self.email, self.dob, self.image.filename, self.prefix, self.employment,
                   self.employer, self.marital_status, self.prefer_commun)
         else:
             raise ValueError('Some fields failed validation.')

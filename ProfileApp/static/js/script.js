@@ -56,6 +56,12 @@ profileApp.validator = {
         else if (input.id === 'password') {
             return this.regexPassword.exec(input.value);
         }
+        else if (input.id === 'photo') {
+            var photo = $('#photo').val();
+            var extension = photo.split('.').pop().toUpperCase();
+            return !(photo.length < 1 || (extension != "PNG" && extension != "JPG" && extension != "GIF" && extension != "JPEG"));
+        }
+
         else {
             return true;
         }
