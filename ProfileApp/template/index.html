@@ -1,210 +1,211 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-              integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        <link rel="stylesheet" href="#">
-        <link rel="shortcut icon" href="./static/img/site.ico"/>
-        <link rel="stylesheet" href="./static/css/form.css">
-        <title>Submit Your Details</title>
-    </head>
-    <body>
-        <div class="container">
-            <h1>Register Your Details with us.</h1>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="#">
+    <link rel="shortcut icon" href="./static/img/site.ico"/>
+    <link rel="stylesheet" href="./static/css/form.css">
+    <title>Submit Your Details</title>
+</head>
+<body>
+<div class="container">
+    <h1>Register Your Details with us.</h1>
 
-            <div class="well">
-                <form class="form-horizontal" method="post" action="view.py" target="_blank">
-                    <div class="form-group">
-                        <label for="prefix" class="control-label col-sm-3">Prefix :</label>
+    <div class="well">
+        <form class="form-horizontal" method="post" action="view.py" target="_blank">
+            <div class="form-group">
+                <label for="prefix" class="control-label col-sm-3">Prefix :</label>
 
-                        <div class="col-sm-9">
-                            <select name="prefix" id="prefix" class="form-control">
-                                <option value="master">Master</option>
-                                <option value="miss">Miss</option>
-                                <option value="mr">Mr.</option>
-                                <option value="mrs">Mrs.</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="firstName" class="control-label col-sm-3">First Name :</label>
-
-                        <div class="col-sm-9">
-                            <input name="firstName" class="form-control" type="text" id="firstName">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="lastName" class="control-label col-sm-3">Last Name :</label>
-
-                        <div class="col-sm-9">
-                            <input name="lastName" class="form-control" type="text" id="lastName">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="email" class="control-label col-sm-3">Email ID :</label>
-
-                        <div class="col-sm-9">
-                            <input name="email" class="form-control" type="email" id="email">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="photo" class="control-label col-sm-3">Person Image :</label>
-
-                        <div class="col-sm-9">
-                            <input name="photo" class="btn btn-file" type="file" id="photo" accept="image/*">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="maritalStatus" class="control-label col-sm-3">Marital Status :</label>
-
-                        <div class="col-sm-9">
-                            <select name="maritalStatus" id="maritalStatus" class="form-control">
-                                <option value="married">Married</option>
-                                <option value="unmarried">Unmarried</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="dob" class="control-label col-sm-3">Date of Birth :</label>
-
-                        <div class="col-sm-9">
-                            <input name="dob" class="form-control" type="date" id="dob">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="employment" class="control-label col-sm-3">Employment :</label>
-
-                        <div class="col-sm-9">
-                            <input name="employment" class="form-control" type="text" id="employment">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="employer" class="control-label col-sm-3">Employer :</label>
-
-                        <div class="col-sm-9">
-                            <input name="employer" class="form-control" type="text" id="employer">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="communication" class="control-label col-sm-3">Preferred Method of Communication :</label>
-
-                        <div class="col-sm-9">
-                            <select name="communication" id="communication" class="form-control">
-                                <option value="mail">Mail</option>
-                                <option value="phone">Phone</option>
-                            </select>
-                        </div>
-                    </div>
-                    <fieldset>
-                        <legend class="legend">Home Contact Details</legend>
-                        <div class="form-group">
-                            <label for="homeStreet" class="control-label col-sm-3">Street :</label>
-
-                            <div class="col-sm-9">
-                                <input name="homeStreet" class="form-control" type="text" id="homeStreet">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="homeCity" class="control-label col-sm-3">City :</label>
-
-                            <div class="col-sm-9">
-                                <input name="homeCity" class="form-control" type="text" id="homeCity">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="homeState" class="control-label col-sm-3">State :</label>
-
-                            <div class="col-sm-9">
-                                <input name="homeState" class="form-control" type="text" id="homeState">
-                            </div>
-                        </div>
-                        <div class="form-group" class="control-label col-sm-3">
-                            <label for="homePin" class="control-label col-sm-3">Pin Number :</label>
-
-                            <div class="col-sm-9">
-                                <input name="homePin" class="form-control" type="number" id="homePin" min="100000" max="999999">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="homePhone" class="control-label col-sm-3">Phone Number :</label>
-
-                            <div class="col-sm-9">
-                                <input name="homePhone" class="form-control" type="number" id="homePhone" max="9999999999">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="homeFax" class="control-label col-sm-3">Fax Number :</label>
-
-                            <div class="col-sm-9">
-                                <input name="homeFax" class="form-control" type="number" id="homeFax" max="9999999999">
-                            </div>
-                        </div>
-
-                    </fieldset>
-                    <div class="form-control">
-                        <input type="checkbox" name="checkboxAddress" value="sameAddress" id="checkboxAddress">
-                        Is your Office address same as Home Address?
-                    </div>
-                    <fieldset id="officeAddress">
-                        <legend class="legend">Office Contact Details</legend>
-
-                        <div class="form-group">
-                            <label for="officeStreet" class="control-label col-sm-3">Street :</label>
-
-                            <div class="col-sm-9">
-                                <input name="officeStreet" class="form-control" type="text" id="officeStreet">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="officeCity" class="control-label col-sm-3">City :</label>
-
-                            <div class="col-sm-9">
-                                <input name="officeCity" class="form-control" type="text" id="officeCity">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="officeState" class="control-label col-sm-3">State :</label>
-
-                            <div class="col-sm-9">
-                                <input name="officeState" class="form-control" type="text" id="officeState">
-                            </div>
-                        </div>
-                        <div class="form-group" class="control-label col-sm-3">
-                            <label for="officePin" class="control-label col-sm-3">Pin Number :</label>
-
-                            <div class="col-sm-9">
-                                <input name="officePin" class="form-control" type="number" id="officePin" min="100000" max="999999">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="officePhone" class="control-label col-sm-3">Phone Number :</label>
-
-                            <div class="col-sm-9">
-                                <input name="officePhone" class="form-control" type="number" id="officePhone" max="9999999999">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="officeFax" class="control-label col-sm-3">Fax Number :</label>
-
-                            <div class="col-sm-9">
-                                <input name="officeFax" class="form-control" type="number" id="officeFax" max="9999999999">
-                            </div>
-                        </div>
-
-                    </fieldset>
-                    <div class="validate">
-                        <input type="submit" value="Submit" class="btn btn-success form-control btn-vc" id="validate">
-                    </div>
-                </form>
+                <div class="col-sm-9">
+                    <select name="prefix" id="prefix" class="form-control">
+                        <option value="master">Master</option>
+                        <option value="miss">Miss</option>
+                        <option value="mr">Mr.</option>
+                        <option value="mrs">Mrs.</option>
+                    </select>
+                </div>
             </div>
-        </div>
+            <div class="form-group">
+                <label for="firstName" class="control-label col-sm-3">First Name :</label>
 
-        <script src="https://code.jquery.com/jquery-3.1.1.min.js"
-                integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-                crossorigin="anonymous"></script>
-        <script src="./static/js/script.js"></script>
-    </body>
+                <div class="col-sm-9">
+                    <input name="firstName" class="form-control" type="text" id="firstName">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="lastName" class="control-label col-sm-3">Last Name :</label>
+
+                <div class="col-sm-9">
+                    <input name="lastName" class="form-control" type="text" id="lastName">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="email" class="control-label col-sm-3">Email ID :</label>
+
+                <div class="col-sm-9">
+                    <input name="email" class="form-control" type="email" id="email">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="photo" class="control-label col-sm-3">Person Image :</label>
+
+                <div class="col-sm-9">
+                    <input name="photo" class="btn btn-file" type="file" id="photo" accept="image/*">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="maritalStatus" class="control-label col-sm-3">Marital Status :</label>
+
+                <div class="col-sm-9">
+                    <select name="maritalStatus" id="maritalStatus" class="form-control">
+                        <option value="married">Married</option>
+                        <option value="unmarried">Unmarried</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="dob" class="control-label col-sm-3">Date of Birth :</label>
+
+                <div class="col-sm-9">
+                    <input name="dob" class="form-control" type="date" id="dob">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="employment" class="control-label col-sm-3">Employment :</label>
+
+                <div class="col-sm-9">
+                    <input name="employment" class="form-control" type="text" id="employment">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="employer" class="control-label col-sm-3">Employer :</label>
+
+                <div class="col-sm-9">
+                    <input name="employer" class="form-control" type="text" id="employer">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="communication" class="control-label col-sm-3">Preferred Method of Communication :</label>
+
+                <div class="col-sm-9">
+                    <select name="communication" id="communication" class="form-control">
+                        <option value="mail">Mail</option>
+                        <option value="phone">Phone</option>
+                    </select>
+                </div>
+            </div>
+            <fieldset>
+                <legend class="legend">Home Contact Details</legend>
+                <div class="form-group">
+                    <label for="homeStreet" class="control-label col-sm-3">Street :</label>
+
+                    <div class="col-sm-9">
+                        <input name="homeStreet" class="form-control" type="text" id="homeStreet">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="homeCity" class="control-label col-sm-3">City :</label>
+
+                    <div class="col-sm-9">
+                        <input name="homeCity" class="form-control" type="text" id="homeCity">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="homeState" class="control-label col-sm-3">State :</label>
+
+                    <div class="col-sm-9">
+                        <input name="homeState" class="form-control" type="text" id="homeState">
+                    </div>
+                </div>
+                <div class="form-group" class="control-label col-sm-3">
+                    <label for="homePin" class="control-label col-sm-3">Pin Number :</label>
+
+                    <div class="col-sm-9">
+                        <input name="homePin" class="form-control" type="number" id="homePin" min="100000" max="999999">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="homePhone" class="control-label col-sm-3">Phone Number :</label>
+
+                    <div class="col-sm-9">
+                        <input name="homePhone" class="form-control" type="number" id="homePhone" max="9999999999">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="homeFax" class="control-label col-sm-3">Fax Number :</label>
+
+                    <div class="col-sm-9">
+                        <input name="homeFax" class="form-control" type="number" id="homeFax" max="9999999999">
+                    </div>
+                </div>
+
+            </fieldset>
+            <div class="form-control">
+                <input type="checkbox" name="checkboxAddress" value="sameAddress" id="checkboxAddress">
+                Is your Office address same as Home Address?
+            </div>
+            <fieldset id="officeAddress">
+                <legend class="legend">Office Contact Details</legend>
+
+                <div class="form-group">
+                    <label for="officeStreet" class="control-label col-sm-3">Street :</label>
+
+                    <div class="col-sm-9">
+                        <input name="officeStreet" class="form-control" type="text" id="officeStreet">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="officeCity" class="control-label col-sm-3">City :</label>
+
+                    <div class="col-sm-9">
+                        <input name="officeCity" class="form-control" type="text" id="officeCity">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="officeState" class="control-label col-sm-3">State :</label>
+
+                    <div class="col-sm-9">
+                        <input name="officeState" class="form-control" type="text" id="officeState">
+                    </div>
+                </div>
+                <div class="form-group" class="control-label col-sm-3">
+                    <label for="officePin" class="control-label col-sm-3">Pin Number :</label>
+
+                    <div class="col-sm-9">
+                        <input name="officePin" class="form-control" type="number" id="officePin" min="100000"
+                               max="999999">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="officePhone" class="control-label col-sm-3">Phone Number :</label>
+
+                    <div class="col-sm-9">
+                        <input name="officePhone" class="form-control" type="number" id="officePhone" max="9999999999">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="officeFax" class="control-label col-sm-3">Fax Number :</label>
+
+                    <div class="col-sm-9">
+                        <input name="officeFax" class="form-control" type="number" id="officeFax" max="9999999999">
+                    </div>
+                </div>
+
+            </fieldset>
+            <div class="validate">
+                <input type="submit" value="Submit" class="btn btn-success form-control btn-vc" id="validate">
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+<script src="./static/js/script.js"></script>
+</body>
 </html>

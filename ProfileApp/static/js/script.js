@@ -9,6 +9,7 @@ profileApp.validator = {
     regexAddress: /^[a-zA-Z0-9-_/: ]{2,50}$/,
     regexPin: /^[0-9]{6}$/,
     regexEmail: /^[a-zA-Z0-9._%-]+@[a-zA-Z0-9._%-]+.[a-zA-Z]{2,6}$/,
+    regexPassword: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
     checkboxAddress: $('#checkboxAddress'),
     dob: $('#dob'),
     currentDate: new Date(),
@@ -51,6 +52,9 @@ profileApp.validator = {
         }
         else if (input.id === 'email') {
             return this.regexEmail.exec(input.value);
+        }
+        else if (input.id === 'password') {
+            return this.regexPassword.exec(input.value);
         }
         else {
             return true;
@@ -120,7 +124,15 @@ $(document).ready(function () {
             window.alert('Your data has been submitted successfully');
         }
     });
-
+    $('#login').click(function () {
+        profileApp.validator.validateInputElements();
+        if (profileApp.validator.flag) {
+            return false;
+        }
+        else {
+            window.alert('Your data has been submitted successfully');
+        }
+    });
 
 });
 

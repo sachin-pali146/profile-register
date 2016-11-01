@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import re
 
+
 class Employee:
     def __init__(self, kwargs):
         self.first_name = kwargs['firstName']
@@ -40,7 +41,7 @@ class Employee:
         self.query = "SELECT {} FROM employee".format(','.join(args))
         return self.query
 
-    def delete(self, id):
+    def delete_employee(self, id):
         """
         This function create delete query.
         :param id: id of the field which needs to be deleted
@@ -49,7 +50,7 @@ class Employee:
         self.query = "DELETE FROM employee WHERE ID={}".format(id)
         return self.query
 
-    def insert(self):
+    def insert_employee(self):
         """
         This function create insert query for employee table
         :return: insert query
@@ -62,3 +63,13 @@ class Employee:
                   self.employer, self.marital_status, self.prefer_commun)
         else:
             raise ValueError('Some fields failed validation.')
+
+
+class EmployeeAddress:
+    def __init__(self, kwargs):
+        self.street = kwargs['homeStreet']
+        self.city = kwargs['homeCity']
+        self.state = kwargs['homeState']
+        self.pin = kwargs['homePin']
+        self.phone = kwargs['homePhone']
+        self.fax = kwargs['homeFax']
