@@ -20,7 +20,6 @@ class Employee:
 
     def validation(self):
         self.flag = True
-        print(self.image.filename)
         if not re.match("^[a-zA-Z0-9._%-]+@[a-zA-Z0-9._%-]+.[a-zA-Z]{2,6}$", self.email):
             print("Validation issue with email")
             self.flag = False
@@ -36,10 +35,10 @@ class Employee:
         if not re.match("^[a-zA-Z]{2,30}$", self.employment):
             print("Validation issue with Employment")
             self.flag = False
-        if not (len(self.image.filename.split('.')) < 1 or (self.image.filename.split('.')[-1].upper() in ["GIF", "PNG", "JPG", "JPEG"])):
+        if (len(self.image.filename.split('.')) > 1 and
+                (self.image.filename.split('.')[-1].upper() not in ["GIF", "PNG", "JPG", "JPEG"])):
             print("Validation issue with Image")
             self.flag = False
-
 
         return self.flag
 
@@ -53,22 +52,38 @@ class Employee:
         :param id: id of the field which needs to be deleted
         :return: delete query
         """
-        self.query = "DELETE FROM employee WHERE ID={}".format(id)
+        self.query = "DELETE FROM employee WHERE ID=%s" % id
         return self.query
 
     def insert_employee(self):
+        """
+        This function create update query for employee table
+        :return: insert query
+        """
+        if self.validation():
+            return ["INSERT INTO employee (firstName,lastName,email, dob, prefix, employment, employer, " \
+                    "maritalStatus, preferCommun)" \
+                    "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+                    (self.first_name, self.last_name, self.email, self.dob,
+                     self.prefix, self.employment, self.employer, self.marital_status, self.prefer_commun,)]
+        else:
+            raise ValueError('Some fields failed validation.')
+
+    def update_employee(self, id):
         """
         This function create insert query for employee table
         :return: insert query
         """
         if self.validation():
-            return "INSERT INTO employee (firstName,lastName,email, dob, image, prefix, employment, employer, " \
-               "maritalStatus, preferCommun)" \
-               "VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" \
-               % (self.first_name, self.last_name, self.email, self.dob, self.image.filename, self.prefix, self.employment,
-                  self.employer, self.marital_status, self.prefer_commun)
+            return ["UPDATE employee set firstName=%s,lastName=%s,email=%s, dob=%s, prefix=%s, " \
+                    "employment=%s, employer=%s, maritalStatus=%s, preferCommun=%s WHERE id=%s"
+                , (self.first_name, self.last_name, self.email, self.dob, self.prefix, self.employment,
+                   self.employer, self.marital_status, self.prefer_commun, id,)]
         else:
             raise ValueError('Some fields failed validation.')
+
+    def set_image(self, image_ext, id):
+        return ["UPDATE employee SET image_extension=%s where id=%s",  (image_ext, id,)]
 
 
 class EmployeeAddress:

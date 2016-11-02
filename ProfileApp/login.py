@@ -2,8 +2,10 @@
 
 import cgi
 import cgitb
-from connection import execute,login
 import os
+
+from connection import login
+
 
 cgitb.enable()
 form = cgi.FieldStorage()
@@ -18,7 +20,6 @@ elif os.environ['REQUEST_METHOD'] == 'POST':
     form_email = form.getvalue('email')
     form_password = form.getvalue('password')
     password_db = login(form_email)
-    # print(password_db)
     if password_db:
         if password_db == form_password:
             print('You are logged in.')

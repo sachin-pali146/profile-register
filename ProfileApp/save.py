@@ -57,7 +57,8 @@ def connect():
             print('Connected to MySQL database')
             add_employee = ("INSERT INTO employee"
                             "(maritalStatus,firstName,dob,lastName,employer,prefix,preferCommun,employment)"
-                            "VALUES (%(maritalStatus)s, %(firstName)s, %(dob)s, %(lastName)s, %(employer)s, %(prefix)s, %(communication)s, %(employment)s)")
+                            "VALUES (%(maritalStatus)s, %(firstName)s, %(dob)s, %(lastName)s, %(employer)s, %(prefix)s,"
+                            " %(communication)s, %(employment)s)")
             data_employee = {
                 'maritalStatus': maritalStatus,
                 'firstName': firstName,
@@ -83,7 +84,8 @@ def connect():
                 address_type = 'both'
                 add_address = ("INSERT INTO empAddress"
                                "(empID,type,state,fax,street,city,pin,phone) "
-                               "VALUES (%(empID)s, %(type)s,%(homeState)s, %(homeFax)s, %(homeStreet)s, %(homeCity)s, %(homePin)s, %(homePhone)s)")
+                               "VALUES (%(empID)s, %(type)s,%(homeState)s, %(homeFax)s, %(homeStreet)s, %(homeCity)s,"
+                               " %(homePin)s, %(homePhone)s)")
                 data_address = {
                     'empID': last_empid,
                     'type': address_type,
@@ -100,7 +102,8 @@ def connect():
                 address_type = 'home'
                 add_address = ("INSERT INTO empAddress"
                                "(empID,type,state,fax,street,city,pin,phone) "
-                               "VALUES (%(empID)s, %(type)s,%(homeState)s, %(homeFax)s, %(homeStreet)s, %(homeCity)s, %(homePin)s, %(homePhone)s)")
+                               "VALUES (%(empID)s, %(type)s,%(homeState)s, %(homeFax)s, %(homeStreet)s, %(homeCity)s,"
+                               " %(homePin)s, %(homePhone)s)")
                 data_address = {
                     'empID': last_empid,
                     'type': address_type,
@@ -117,7 +120,8 @@ def connect():
                 address_type = 'office'
                 add_address = ("INSERT INTO empAddress"
                                "(empID,type,state,fax,street,city,pin,phone) "
-                               "VALUES (%(empID)s, %(type)s,%(officeState)s, %(officeFax)s, %(officeStreet)s, %(officeCity)s, %(officePin)s, %(officePhone)s)")
+                               "VALUES (%(empID)s, %(type)s,%(officeState)s, %(officeFax)s, %(officeStreet)s,"
+                               " %(officeCity)s, %(officePin)s, %(officePhone)s)")
                 data_address = {
                     'empID': last_empid,
                     'type': address_type,

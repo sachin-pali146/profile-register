@@ -4,12 +4,12 @@ import mysql.connector
 from mysql.connector import Error
 
 
+
 def connect():
-    conn = mysql.connector.connect(host='localhost',
-                                       database='profiledb',
-                                       user='root',
-                                       password='mindfire')
+    conn = mysql.connector.connect(option_files='constants.cnf')
     return conn
+
+
 def execute(query):
     """
     This function is used for creating the connection with database and executing the queries.
@@ -20,17 +20,20 @@ def execute(query):
         conn = connect()
 
         if conn.is_connected():
-            # print('Connected to MySQL database')
-            cursor = conn.cursor()
-            cursor.execute(query)
+            cursor = conn.cursor(dictionary=True, buffered=True)
+            cursor.execute(query[0], query[1])
+            output = dict()
+            output["fetchone"] = cursor.fetchone()
+            output["lastrowid"] = cursor.lastrowid
+            output["cursor"] = cursor
             conn.commit()
+            return output
 
     except Error as e:
         print(e)
 
     finally:
         conn.close()
-        return cursor.lastrowid
 
 
 def login(emailid):
@@ -39,16 +42,13 @@ def login(emailid):
         conn = connect()
         if conn.is_connected():
             cursor = conn.cursor(buffered=True)
-            # emailid1='sachin.pali@daf.com'
-            # cursor.execute("SELECT password from employee where email=%s", (emailid1,))
-            # print(cursor.fetchone())
             cursor.execute("SELECT password from employee where email=%s", (emailid,))
             password_db = cursor.fetchone()[0]
-            # print(cursor.fetchone())
-
+            return password_db
     except Error as e:
         print(e)
 
     finally:
         conn.close()
-        return password_db
+
+
