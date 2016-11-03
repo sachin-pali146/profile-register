@@ -37,14 +37,14 @@ def execute(query):
 
 
 def login(emailid):
-    password_db = ''
+    result = ''
     try:
         conn = connect()
         if conn.is_connected():
-            cursor = conn.cursor(buffered=True)
-            cursor.execute("SELECT password from employee where email=%s", (emailid,))
-            password_db = cursor.fetchone()[0]
-            return password_db
+            cursor = conn.cursor(dictionary=True, buffered=True)
+            cursor.execute("SELECT id,password from employee where email=%s", (emailid,))
+            result = cursor.fetchone()
+            return result
     except Error as e:
         print(e)
 

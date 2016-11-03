@@ -33,7 +33,7 @@ profileApp.validator = {
     pinChecker: ['homePin', 'officePin'],
     setDefaultImage: function () {
         if ($('#prefix').val() === "master" || $('#prefix').val() === "mr") {
-            $('#photo').attr('src', '../img/female.png');
+            $('#photo').attr('src', '../img/male.png');
         }
         else if ($('#prefix').val() === "miss" || $('#prefix').val() === "mrs") {
             $('#photo').attr('src','../img/female.png');
@@ -68,7 +68,7 @@ profileApp.validator = {
             if (photo) {
                 var supported_format = ["PNG", "JPG", "GIF", "JPEG"];
                 var extension = supported_format.indexOf(photo.split('.').pop().toUpperCase());
-                result = !(photo.length < 1 || !(extension in supported_format));
+                result = extension in supported_format;
             }
             else {
                 this.setDefaultImage();
@@ -142,17 +142,11 @@ $(document).ready(function () {
         if (profileApp.validator.flag) {
             return false;
         }
-        else {
-            window.alert('Your data has been submitted successfully');
-        }
     });
     $('#login').click(function () {
         profileApp.validator.validateInputElements();
         if (profileApp.validator.flag) {
             return false;
-        }
-        else {
-            window.alert('Your data has been submitted successfully');
         }
     });
 
