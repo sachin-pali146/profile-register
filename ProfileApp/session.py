@@ -33,25 +33,26 @@ def delete_cookie():
     else:
         return False
 
+
 def current_user():
-    c = cookies.SimpleCookie(os.environ['HTTP_COOKIE'])
-    if 'session_id' in c.keys():
-        session_id = c['session_id'].value
-        if os.path.exists(os.path.join('.sessions', session_id)):
-            session_file = open(os.path.join('.sessions', session_id), 'rb')
-            session_obj = pickle.load(session_file)
-            session_file.close()
-            return session_obj['userid']
-    else:
-        return False
+    if 'HTTP_COOKIE' in os.environ.keys():
+        c = cookies.SimpleCookie(os.environ['HTTP_COOKIE'])
+        if 'session_id' in c.keys():
+            session_id = c['session_id'].value
+            if os.path.exists(os.path.join('.sessions', session_id)):
+                session_file = open(os.path.join('.sessions', session_id), 'rb')
+                session_obj = pickle.load(session_file)
+                session_file.close()
+                return session_obj['userid']
+    return False
 
 
 def session(user):
-    id = user['id']
+    user_id = user['id']
     current = current_user()
     if current:
         return current
     else:
-        session_obj = {}
-        session_obj['userid'] = id
+        session_obj = dict()
+        session_obj['userid'] = user_id
         create_cookie(session_obj)

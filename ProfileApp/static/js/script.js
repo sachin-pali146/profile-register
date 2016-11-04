@@ -31,6 +31,7 @@ profileApp.validator = {
     phoneChecker: ['homePhone', 'homeFax', 'officePhone', 'officeFax'],
     addressChecker: ['homeStreet', 'officeStreet'],
     pinChecker: ['homePin', 'officePin'],
+    passwordChecker: ['password','newPassword','oldPassword','confirmPassword'],
     setDefaultImage: function () {
         if ($('#prefix').val() === "master" || $('#prefix').val() === "mr") {
             $('#photo').attr('src', '../img/male.png');
@@ -60,7 +61,7 @@ profileApp.validator = {
         else if (input.id === 'email') {
             result = this.regexEmail.exec(input.value);
         }
-        else if (input.id === 'password') {
+        else if (this.passwordChecker.indexOf(input.id) !== -1) {
             result = this.regexPassword.exec(input.value);
         }
         else if (input.id === 'photo') {
@@ -143,12 +144,29 @@ $(document).ready(function () {
             return false;
         }
     });
-    $('#login').click(function () {
+    $('#login,#submit').click(function () {
         profileApp.validator.validateInputElements();
         if (profileApp.validator.flag) {
             return false;
         }
     });
+    $('#userTable').DataTable( {
+        //"processing": true,
+        //"serverSide": true,
+        "ajax": {
+            "url": "http://localhost/user_data.py",
+            "dataSrc": ""
+        },
+        "columns": [
+            { "data": "image_extension" },
+            { "data": "firstName" },
+            { "data": "lastName" },
+            { "data": "employment" },
+            { "data": "employer" },
+            { "data": "email" }
+
+        ]
+    } );
 
 });
 

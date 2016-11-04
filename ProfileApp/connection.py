@@ -23,7 +23,9 @@ def execute(query):
             cursor = conn.cursor(dictionary=True, buffered=True)
             cursor.execute(query[0], query[1])
             output = dict()
-            output["fetchone"] = cursor.fetchone()
+            # output["fetchone"] = cursor.fetchone()
+            if 'SELECT' in cursor.statement:
+                output["fetchall"] = cursor.fetchall()
             output["lastrowid"] = cursor.lastrowid
             output["cursor"] = cursor
             conn.commit()

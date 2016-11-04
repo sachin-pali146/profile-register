@@ -2,21 +2,39 @@
 import re
 
 
+class BaseClass:
+    @staticmethod
+    def select_all(user):
+        return ["SELECT * FROM employee WHERE id=%s", (user,)]
+
+    @staticmethod
+    def update_user_setting(values, id):
+        query = ["UPDATE employee SET password = %s, public_profile = %s WHERE id=%s",
+                 (values["password"], values["profile_status"], id,)]
+        return query
+
+    @staticmethod
+    def user_profile_data():
+        query = ["SELECT id,firstName, lastName, image_extension, email, employer, employment FROM employee "
+                 "WHERE public_profile=%s", ('1',)]
+        return query
+
+
 class Employee:
-    def __init__(self, kwargs):
-        self.first_name = kwargs['firstName']
-        self.last_name = kwargs['lastName']
-        self.email = kwargs['email']
-        self.dob = kwargs['dob']
-        if 'photo' in kwargs:
-            self.image = kwargs['photo']
+    def __init__(self, employee):
+        self.first_name = employee['firstName']
+        self.last_name = employee['lastName']
+        self.email = employee['email']
+        self.dob = employee['dob']
+        if 'photo' in employee:
+            self.image = employee['photo']
         else:
             self.image = 'NULL'
-        self.prefix = kwargs['prefix']
-        self.employment = kwargs['employment']
-        self.employer = kwargs['employer']
-        self.marital_status = kwargs['maritalStatus']
-        self.prefer_commun = kwargs['communication']
+        self.prefix = employee['prefix']
+        self.employment = employee['employment']
+        self.employer = employee['employer']
+        self.marital_status = employee['maritalStatus']
+        self.prefer_commun = employee['communication']
 
     def validation(self):
         self.flag = True
@@ -82,15 +100,16 @@ class Employee:
         else:
             raise ValueError('Some fields failed validation.')
 
-    def set_image(self, image_ext, id):
+    @staticmethod
+    def set_image(image_ext, id):
         return ["UPDATE employee SET image_extension=%s where id=%s",  (image_ext, id,)]
 
 
 class EmployeeAddress:
-    def __init__(self, kwargs):
-        self.street = kwargs['homeStreet']
-        self.city = kwargs['homeCity']
-        self.state = kwargs['homeState']
-        self.pin = kwargs['homePin']
-        self.phone = kwargs['homePhone']
-        self.fax = kwargs['homeFax']
+    def __init__(self, employee):
+        self.street = employee['homeStreet']
+        self.city = employee['homeCity']
+        self.state = employee['homeState']
+        self.pin = employee['homePin']
+        self.phone = employee['homePhone']
+        self.fax = employee['homeFax']
