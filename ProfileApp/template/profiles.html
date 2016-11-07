@@ -12,35 +12,48 @@
 <body>
 <div class="container">
     <h1>User Profiles.</h1>
-    <table id="userTable" class="display" cellspacing="0" width="100%">
-        <thead>
-        <tr>
-            <th>Image</th>
-            <th>First name</th>
-            <th>Last name</th>
-            <th>Employment</th>
-            <th>Employer</th>
-            <th>Email ID</th>
-        </tr>
-        </thead>
-        <tfoot>
-        <tr>
-            <th>Image</th>
-            <th>First name</th>
-            <th>Last name</th>
-            <th>Employment</th>
-            <th>Employer</th>
-            <th>Email ID</th>
-        </tr>
-        </tfoot>
-    </table>
+    <div class="table-responsive">
+        <table id="userTable" class="table table-hover">
+            <thead>
+            <tr>
+                <th>Image</th>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Employment</th>
+                <th>Employer</th>
+                <th>Email ID</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            <tfoot>
+            <tr>
+                <th>Image</th>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Employment</th>
+                <th>Employer</th>
+                <th>Email ID</th>
+            </tr>
+            </tfoot>
+        </table>
+
+    </div>
+    <div class="text-center">
+        <nav class="navbar">
+            <ul class="pagination">
+            </ul>
+        </nav>
+    </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
-<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<script src="../static/js/url.min.js"></script>
+<!--<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>-->
 <script src="../static/js/script.js"></script>
+<script src="../static/js/test.js"></script>
 </body>
 </html>

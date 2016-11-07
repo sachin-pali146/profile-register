@@ -14,9 +14,10 @@ class BaseClass:
         return query
 
     @staticmethod
-    def user_profile_data():
+    def user_profile_data(page):
+        offset = int(page) * 10
         query = ["SELECT id,firstName, lastName, image_extension, email, employer, employment FROM employee "
-                 "WHERE public_profile=%s", ('1',)]
+                 "WHERE public_profile = 1 LIMIT 10 OFFSET %s", (offset,)]
         return query
 
 
@@ -93,7 +94,7 @@ class Employee:
         :return: insert query
         """
         if self.validation():
-            return ["UPDATE employee set firstName=%s,lastName=%s,email=%s, dob=%s, prefix=%s, " \
+            return ["UPDATE employee SET firstName=%s,lastName=%s,email=%s, dob=%s, prefix=%s, " \
                     "employment=%s, employer=%s, maritalStatus=%s, preferCommun=%s WHERE id=%s"
                 , (self.first_name, self.last_name, self.email, self.dob, self.prefix, self.employment,
                    self.employer, self.marital_status, self.prefer_commun, id,)]
@@ -102,7 +103,7 @@ class Employee:
 
     @staticmethod
     def set_image(image_ext, id):
-        return ["UPDATE employee SET image_extension=%s where id=%s",  (image_ext, id,)]
+        return ["UPDATE employee SET image_extension=%s WHERE id=%s", (image_ext, id,)]
 
 
 class EmployeeAddress:

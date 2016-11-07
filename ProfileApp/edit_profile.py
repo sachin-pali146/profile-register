@@ -58,17 +58,11 @@ if employee_id:
         f.close()
 
     elif os.environ['REQUEST_METHOD'] == 'POST':
-        # print("Content-type: text/html\n")
         dict_fields = get_formvalues()
-        # print('1',dict_fields)
         e = Employee(dict_fields)
-        # print('2')
         employee_id = str(employee_id)
         update_query = e.update_employee(employee_id)
-        # print('4')
         execute(update_query)
-        # print('5')
-        # print(update_query)
         if dict_fields['photo'].filename:
             # print('3')
             image_ext = dict_fields['photo'].filename.split('.')[-1]

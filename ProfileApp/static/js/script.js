@@ -150,23 +150,35 @@ $(document).ready(function () {
             return false;
         }
     });
-    $('#userTable').DataTable( {
-        //"processing": true,
-        //"serverSide": true,
-        "ajax": {
-            "url": "http://localhost/user_data.py",
-            "dataSrc": ""
-        },
-        "columns": [
-            { "data": "image_extension" },
-            { "data": "firstName" },
-            { "data": "lastName" },
-            { "data": "employment" },
-            { "data": "employer" },
-            { "data": "email" }
-
-        ]
-    } );
+    //var page = $.url('?page');
+    ////var page=2;
+    ////var url = $.url();
+    ////console.log('url:',url)
+    //if (page === undefined) {
+    //    page= '0';
+    //}
+    //console.log(page.toString())
+    //
+    //$('#userTable').DataTable(
+    //
+    //    {
+    //    //"processing": true,
+    //    //"serverSide": true,
+    //
+    //    "ajax": {
+    //        "url": "http://localhost/user_data.py?page="+page,
+    //        "dataSrc": ""
+    //    },
+    //    "columns": [
+    //        { "data": "image_extension" },
+    //        { "data": "firstName" },
+    //        { "data": "lastName" },
+    //        { "data": "employment" },
+    //        { "data": "employer" },
+    //        { "data": "email" }
+    //
+    //    ]
+    //} );
 
 });
 
