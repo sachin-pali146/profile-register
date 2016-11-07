@@ -5,24 +5,52 @@ import re
 class BaseClass:
     @staticmethod
     def select_all(user):
+
+        """
+        Returns SQL query array having all the columns for given user
+        :param user: user id of the user whose details needed to be fetched
+        :return: SQL query array
+        """
+
         return ["SELECT * FROM employee WHERE id=%s", (user,)]
 
     @staticmethod
     def update_user_setting(values, id):
+
+        """
+        Returns Update query for values of user settings
+        :param values: dictionary having password and public profile information
+        :param id: User id
+        :return: SQL query array
+        """
+
         query = ["UPDATE employee SET password = %s, public_profile = %s WHERE id=%s",
                  (values["password"], values["profile_status"], id,)]
         return query
 
     @staticmethod
     def user_profile_data(page):
+
+        """
+        Return Query having details of public profiles
+        :param page: page number of user profile list
+        :return: SQL query array
+        """
+
         offset = int(page) * 10
-        query = ["SELECT id,firstName, lastName, image_extension, email, employer, employment FROM employee "
-                 "WHERE public_profile = 1 LIMIT 10 OFFSET %s", (offset,)]
+        query = ["SELECT SQL_CALC_FOUND_ROWS id,firstName, lastName, image_extension, email, employer, employment "
+                 "FROM employee WHERE public_profile = 1 LIMIT 10 OFFSET %s", (offset,)]
         return query
 
 
 class Employee:
     def __init__(self, employee):
+
+        """
+        Initialise employee class.
+        :param employee: dictionary having basic employee details
+        """
+
         self.first_name = employee['firstName']
         self.last_name = employee['lastName']
         self.email = employee['email']
@@ -38,6 +66,12 @@ class Employee:
         self.prefer_commun = employee['communication']
 
     def validation(self):
+
+        """
+        Validate the information sent by user.
+        :return: Boolean value according to validation test.
+        """
+
         self.flag = True
         if not re.match("^[a-zA-Z0-9._%-]+@[a-zA-Z0-9._%-]+.[a-zA-Z]{2,6}$", self.email):
             print("Validation issue with email")
@@ -61,9 +95,6 @@ class Employee:
 
         return self.flag
 
-    def select_employee(self, *args):
-        self.query = "SELECT {} FROM employee".format(','.join(args))
-        return self.query
 
     def delete_employee(self, id):
         """
@@ -103,6 +134,12 @@ class Employee:
 
     @staticmethod
     def set_image(image_ext, id):
+        """
+        Sets user profile image
+        :param image_ext: profile image extension
+        :param id: user id
+        :return: SQL query array
+        """
         return ["UPDATE employee SET image_extension=%s WHERE id=%s", (image_ext, id,)]
 
 

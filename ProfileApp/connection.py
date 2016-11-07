@@ -5,6 +5,12 @@ from mysql.connector import Error
 
 
 def connect():
+
+    """
+    Creates mysql connection object
+    :return: connection object
+    """
+
     conn = mysql.connector.connect(option_files='constants.cnf')
     return conn
 
@@ -35,13 +41,20 @@ def execute(query):
         conn.close()
 
 
-def login(emailid):
+def login(email_id):
+
+    """
+    Function is used to get user id and password details
+    :param email_id: email id of user
+    :return: dictionary having user id and password.
+    """
+
     result = ''
     try:
         conn = connect()
         if conn.is_connected():
             cursor = conn.cursor(dictionary=True, buffered=True)
-            cursor.execute("SELECT id,password from employee where email=%s", (emailid,))
+            cursor.execute("SELECT id,password from employee where email=%s", (email_id,))
             result = cursor.fetchone()
             return result
     except Error as e:
@@ -51,15 +64,23 @@ def login(emailid):
         conn.close()
 
 
-def total_public_profile():
-    result = ''
+def public_profile(query):
+
+    """
+    Function is used to get all the public profiles
+    :param query: SQL query for the public profiles
+    :return: dictionary having total count and limited users details according to offset.
+    """
     try:
         conn = connect()
         if conn.is_connected():
             cursor = conn.cursor(dictionary=True, buffered=True)
-            cursor.execute("SELECT count(1) as total from employee where public_profile=1")
-            result = cursor.fetchone()
-            return result
+            cursor.execute(query[0], query[1])
+            output = dict()
+            output["fetchall"] = cursor.fetchall()
+            cursor.execute("SELECT FOUND_ROWS()")
+            output["total"] = cursor.fetchone()["FOUND_ROWS()"]
+            return output
     except Error as e:
         print(e)
 
