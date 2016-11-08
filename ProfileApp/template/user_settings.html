@@ -1,0 +1,39 @@
+<div class="container">
+    <h1>Edit Your Settings.</h1>
+
+    <div class="well">
+        <form class="form-horizontal" method="post" action="user_settings.py" enctype="multipart/form-data">
+            <div class="form-control">
+                <input type="checkbox" name="profileStatus" value="public" id="profileStatus">
+                Make my profile public.
+            </div>
+            <fieldset>
+                <legend class="legend">Change Password</legend>
+                <div class="form-group">
+                    <label for="oldPassword" class="control-label col-sm-3">Current Password :</label>
+
+                    <div class="col-sm-9">
+                        <input name="oldPassword" class="form-control" type="password" id="oldPassword">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="newPassword" class="control-label col-sm-3">New Password :</label>
+
+                    <div class="col-sm-9">
+                        <input name="newPassword" class="form-control" type="password" id="newPassword">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword" class="control-label col-sm-3">Confirm Password :</label>
+
+                    <div class="col-sm-9">
+                        <input name="confirmPassword" class="form-control" type="password" id="confirmPassword">
+                    </div>
+                </div>
+            </fieldset>
+            <div class="validate">
+                <input type="submit" value="Submit Details" class="btn btn-success form-control btn-vc" id="submit">
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,93 @@
+<div class="container">
+    <h1>Edit Your Details.</h1>
+
+    <div class="well">
+        <form class="form-horizontal" method="post" action="edit_profile.py" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="prefix" class="control-label col-sm-3">Prefix :</label>
+
+                <div class="col-sm-9">
+                    <select name="prefix" id="prefix" class="form-control">
+                        <option value="master" %(master)s>Master</option>
+                        <option value="miss" %(miss)s>Miss</option>
+                        <option value="mr" %(mr)s>Mr.</option>
+                        <option value="mrs" %(mrs)s>Mrs.</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="firstName" class="control-label col-sm-3">First Name :</label>
+
+                <div class="col-sm-9">
+                    <input name="firstName" class="form-control" type="text" id="firstName" value="%(firstName)s">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="lastName" class="control-label col-sm-3">Last Name :</label>
+
+                <div class="col-sm-9">
+                    <input name="lastName" class="form-control" type="text" id="lastName" value="%(lastName)s">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="email" class="control-label col-sm-3">Email ID :</label>
+
+                <div class="col-sm-9">
+                    <input name="email" class="form-control" type="email" id="email" value="%(email)s">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="photo" class="control-label col-sm-3">Person Image :</label>
+
+                <div class="col-sm-9">
+                    <img src="%(image)s" class="img-responsive img-thumbnail profile-img " alt="Profile Image">
+                    <input name="photo" class="btn btn-file" type="file" id="photo" accept="image/*" value="%(image)s">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="maritalStatus" class="control-label col-sm-3">Marital Status :</label>
+
+                <div class="col-sm-9">
+                    <select name="maritalStatus" id="maritalStatus" class="form-control">
+                        <option value="married" %(married)s>Married</option>
+                        <option value="unmarried" %(unmarried)s>Unmarried</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="dob" class="control-label col-sm-3">Date of Birth :</label>
+
+                <div class="col-sm-9">
+                    <input name="dob" class="form-control" type="date" id="dob" value="%(dob)s">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="employment" class="control-label col-sm-3">Employment :</label>
+
+                <div class="col-sm-9">
+                    <input name="employment" class="form-control" type="text" id="employment" value="%(employment)s">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="employer" class="control-label col-sm-3">Employer :</label>
+
+                <div class="col-sm-9">
+                    <input name="employer" class="form-control" type="text" id="employer" value="%(employer)s">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="communication" class="control-label col-sm-3">Preferred Method of Communication :</label>
+
+                <div class="col-sm-9">
+                    <select name="communication" id="communication" class="form-control">
+                        <option value="mail" %(Mail)s>Mail</option>
+                        <option value="phone" %(Phone)s>Phone</option>
+                    </select>
+                </div>
+            </div>
+            <div class="validate">
+                <input type="submit" value="Submit" class="btn btn-success form-control btn-vc" id="validate">
+            </div>
+            </form>
+        </div>
+    </div>

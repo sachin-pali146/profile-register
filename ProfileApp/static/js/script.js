@@ -8,6 +8,8 @@ profileApp.validator = {
     regexPhone: /^[0-9]{10}$/,
     regexAddress: /^[a-zA-Z0-9-_/: ]{2,50}$/,
     regexPin: /^[0-9]{6}$/,
+    regexEmail: /^[a-zA-Z0-9._%-]+@[a-zA-Z0-9._%-]+.[a-zA-Z]{2,6}$/,
+    regexPassword: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
     checkboxAddress: $('#checkboxAddress'),
     dob: $('#dob'),
     currentDate: new Date(),
@@ -29,32 +31,61 @@ profileApp.validator = {
     phoneChecker: ['homePhone', 'homeFax', 'officePhone', 'officeFax'],
     addressChecker: ['homeStreet', 'officeStreet'],
     pinChecker: ['homePin', 'officePin'],
-    errorSpan: document.createElement('span'),
-
+    passwordChecker: ['password','newPassword','oldPassword','confirmPassword'],
+    setDefaultImage: function () {
+        if ($('#prefix').val() === "master" || $('#prefix').val() === "mr") {
+            $('#photo').attr('src', '../img/male.png');
+        }
+        else if ($('#prefix').val() === "miss" || $('#prefix').val() === "mrs") {
+            $('#photo').attr('src','../img/female.png');
+        }
+    },
     validateInput: function (input) {
+        var result;
         if (this.nameChecker.indexOf(input.id) !== -1) {
-            return this.regexName.exec(input.value);
+            result = this.regexName.exec(input.value);
         }
         else if (this.addressChecker.indexOf(input.id) !== -1) {
-            return this.regexAddress.exec(input.value);
+            result = this.regexAddress.exec(input.value);
         }
         else if (this.phoneChecker.indexOf(input.id) !== -1) {
-            return this.regexPhone.exec(input.value);
+            result = this.regexPhone.exec(input.value);
         }
         else if (this.pinChecker.indexOf(input.id) !== -1) {
-            return this.regexPin.exec(input.value);
+            result = this.regexPin.exec(input.value);
         }
         else if (input.id === 'dob') {
             var dobDate = new Date(input.value);
-            return dobDate < this.currentDate;
+            result = dobDate < this.currentDate;
         }
+        else if (input.id === 'email') {
+            result = this.regexEmail.exec(input.value);
+        }
+        else if (this.passwordChecker.indexOf(input.id) !== -1) {
+            result = this.regexPassword.exec(input.value);
+        }
+        else if (input.id === 'photo') {
+            var photo = $('#photo').val();
+            if (photo) {
+                var supported_format = ["PNG", "JPG", "GIF", "JPEG"];
+                var extension = supported_format.indexOf(photo.split('.').pop().toUpperCase());
+                result = extension in supported_format;
+            }
+            else {
+                this.setDefaultImage();
+                result = true;
+            }
+        }
+
         else {
-            return true;
+            result = true;
         }
+        return result;
     },
     addErrorClass: function (currentParentElement) {
         currentParentElement.addClass('has-feedback has-error');
-        $('<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>').appendTo(currentParentElement);
+        $('<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>').
+            appendTo(currentParentElement);
         this.flag += 1;
     },
     removeErrorClass: function (currentParentElement) {
@@ -112,8 +143,11 @@ $(document).ready(function () {
         if (profileApp.validator.flag) {
             return false;
         }
-        else {
-            window.alert('Your data has been submitted successfully');
+    });
+    $('#login,#submit').click(function () {
+        profileApp.validator.validateInputElements();
+        if (profileApp.validator.flag) {
+            return false;
         }
     });
 
