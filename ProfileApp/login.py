@@ -10,12 +10,22 @@ from connection import login
 
 cgitb.enable()
 form = cgi.FieldStorage()
+header = dict()
+header["title"] = "Login"
+header["homeUrl"] = "http://localhost/register.py"
+header["navTopRight"] = '<li class="active"><a href="http://localhost/register.py">Register Now</a></li>'
 if os.environ['REQUEST_METHOD'] == 'GET':
     if current_user():
         print("Location: http://localhost/edit_profile.py\n")
     else:
         print("Content-type: text/html\n")
+        f = open('./template/header.html', encoding='utf-8')
+        print(f.read() % header)
+        f.close()
         f = open('./template/login.html')
+        print(f.read())
+        f.close()
+        f = open('./template/footer.html', encoding="utf_8")
         print(f.read())
         f.close()
 elif os.environ['REQUEST_METHOD'] == 'POST':

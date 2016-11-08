@@ -3,6 +3,18 @@ import re
 
 
 class BaseClass:
+
+    @staticmethod
+    def user_name(user):
+
+        """
+        Returns SQL query array having all the columns for given user
+        :param user: user id of the user whose details needed to be fetched
+        :return: SQL query array
+        """
+
+        return ["SELECT firstName,lastName FROM employee WHERE id=%s", (user,)]
+
     @staticmethod
     def select_all(user):
 

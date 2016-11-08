@@ -6,7 +6,7 @@ import cgitb
 import configparser
 
 from session import current_user
-from model import Employee
+from model import Employee,BaseClass
 from connection import execute
 from utils import get_formvalues, save_uploaded_file
 
@@ -15,8 +15,17 @@ cgitb.enable()
 config = configparser.ConfigParser()
 config.read('constants.cnf')
 employee_id = current_user()
+header = dict()
+header["title"] = "Edit Profile"
 
 if employee_id:
+    header["homeUrl"] = "http://localhost/profiles.py"
+    # header["homeUrl"] = "#"
+    user = execute(BaseClass.user_name(employee_id))["fetchall"][0]
+    user_name = user["firstName"] + ' ' + user["lastName"]
+    top_right_link = '<a href="http://localhost/logout.py">Logout</a>'
+    header["navTopRight"] = '<li class="active"><a>%s</a></li><li class="active">%s</li>' % (user_name, top_right_link)
+    # header["navTopRight"] = "test"
     if os.environ['REQUEST_METHOD'] == 'GET':
         form = cgi.FieldStorage()
         employee_query = execute(["SELECT firstName, lastName, email, dob, image_extension, preferCommun, prefix,"
@@ -45,15 +54,14 @@ if employee_id:
         employee_columns[employee_columns["preferCommun"]] = "selected"
         employee_columns[employee_columns["prefix"]] = "selected"
         employee_columns[employee_columns["maritalStatus"]] = "selected"
-        print("Content-type: text/html")
-        print('')
-        f = open('./template/header.html')
-        print(f.read() % {'title': 'Edit Profile'})
+        print("Content-type: text/html\n")
+        f = open('./template/header.html', encoding='utf-8')
+        print(f.read() %header)
         f.close()
         f = open('./template/edit_profile.html')
         print(f.read() % employee_columns)
         f.close()
-        f = open('./template/footer.html')
+        f = open('./template/footer.html', encoding="utf_8")
         print(f.read())
         f.close()
 
