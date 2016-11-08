@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 import os
 import pickle
-import hashlib
 import time
 from http import cookies
+from utils import generate_hash
 
 
 def print_headers(headers):
@@ -29,7 +29,7 @@ def create_cookie(session_obj):
     """
 
     headers = {}
-    hash_value = hashlib.new('ripemd160', str(time.time()).encode()).hexdigest()
+    hash_value = generate_hash(time.time())
     headers['Set-Cookie'] = 'session_id=%s;expires=%s' % (hash_value, str(time.time() + (60 * 60 * 5)))
     print_headers(headers)
     session_file = open(os.path.join('.sessions', hash_value), 'wb')

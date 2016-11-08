@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import re
+from utils import generate_hash,generate_password
 
 
 class BaseClass:
@@ -76,6 +77,7 @@ class Employee:
         self.employer = employee['employer']
         self.marital_status = employee['maritalStatus']
         self.prefer_commun = employee['communication']
+        self.password = generate_password()
 
     def validation(self):
 
@@ -123,11 +125,12 @@ class Employee:
         :return: insert query
         """
         if self.validation():
+
             return ["INSERT INTO employee (firstName,lastName,email, dob, prefix, employment, employer, " \
-                    "maritalStatus, preferCommun)" \
-                    "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+                    "maritalStatus, preferCommun,password)" \
+                    "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
                     (self.first_name, self.last_name, self.email, self.dob,
-                     self.prefix, self.employment, self.employer, self.marital_status, self.prefer_commun,)]
+                     self.prefix, self.employment, self.employer, self.marital_status, self.prefer_commun, self.password,)]
         else:
             raise ValueError('Some fields failed validation.')
 
@@ -143,6 +146,21 @@ class Employee:
                    self.employer, self.marital_status, self.prefer_commun, id,)]
         else:
             raise ValueError('Some fields failed validation.')
+
+    def activation(self):
+
+        """
+        Create activation details new registered users
+        :return: dictionary having activation url and password.
+        """
+
+        hash_value = generate_hash(self.email)
+        activation_url = "http://localhost/activate.py?email=%s&value=%s" % (self.email, hash_value)
+        result = dict()
+        result['activation_url'] = activation_url
+        result['temp_password'] = self.password
+        result['user_name'] = ' '.join([self.first_name, self.last_name])
+        return result
 
     @staticmethod
     def set_image(image_ext, id):

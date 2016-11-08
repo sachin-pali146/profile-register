@@ -4,6 +4,7 @@ import mysql.connector
 from mysql.connector import Error
 
 
+
 def connect():
 
     """
@@ -54,7 +55,7 @@ def login(email_id):
         conn = connect()
         if conn.is_connected():
             cursor = conn.cursor(dictionary=True, buffered=True)
-            cursor.execute("SELECT id,password from employee where email=%s", (email_id,))
+            cursor.execute("SELECT id,password,active from employee where email=%s", (email_id,))
             result = cursor.fetchone()
             return result
     except Error as e:
@@ -80,7 +81,32 @@ def public_profile(query):
             output["fetchall"] = cursor.fetchall()
             cursor.execute("SELECT FOUND_ROWS()")
             output["total"] = cursor.fetchone()["FOUND_ROWS()"]
+            conn.commit()
             return output
+    except Error as e:
+        print(e)
+
+    finally:
+        conn.close()
+
+
+def activate(email_id):
+
+    """
+    Function is used to activate profile of new users
+    :param email_id: email id of user
+    :return: lastrowid
+    """
+
+    result = ''
+    try:
+        conn = connect()
+        if conn.is_connected():
+            cursor = conn.cursor(dictionary=True, buffered=True)
+            cursor.execute("UPDATE employee SET active = TRUE where email = %s", (email_id,))
+            result = cursor.lastrowid
+            conn.commit()
+            return result
     except Error as e:
         print(e)
 

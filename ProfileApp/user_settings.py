@@ -12,7 +12,7 @@ from connection import execute
 cgitb.enable()
 form = cgi.FieldStorage()
 user = str(current_user())
-# print(user)
+
 if user:
     if os.environ['REQUEST_METHOD'] == 'GET':
         print("Content-type: text/html")

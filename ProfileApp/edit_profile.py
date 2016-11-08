@@ -20,12 +20,10 @@ header["title"] = "Edit Profile"
 
 if employee_id:
     header["homeUrl"] = "http://localhost/profiles.py"
-    # header["homeUrl"] = "#"
     user = execute(BaseClass.user_name(employee_id))["fetchall"][0]
     user_name = user["firstName"] + ' ' + user["lastName"]
     top_right_link = '<a href="http://localhost/logout.py">Logout</a>'
     header["navTopRight"] = '<li class="active"><a>%s</a></li><li class="active">%s</li>' % (user_name, top_right_link)
-    # header["navTopRight"] = "test"
     if os.environ['REQUEST_METHOD'] == 'GET':
         form = cgi.FieldStorage()
         employee_query = execute(["SELECT firstName, lastName, email, dob, image_extension, preferCommun, prefix,"
@@ -72,7 +70,6 @@ if employee_id:
         update_query = e.update_employee(employee_id)
         execute(update_query)
         if dict_fields['photo'].filename:
-            # print('3')
             image_ext = dict_fields['photo'].filename.split('.')[-1]
             image_name = employee_id+'.'+image_ext
             image_query = e.set_image(image_ext, employee_id)

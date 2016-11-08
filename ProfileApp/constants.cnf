@@ -7,3 +7,9 @@ password=mindfire
 [profile]
 path=/var/www/html/Details/ProfileApp/static/profile_images/
 img_path=http://localhost/static/profile_images/
+
+[smtp]
+host=smtp.gmail.com
+port=587
+user=sachin.mfsi
+pass=hungama12

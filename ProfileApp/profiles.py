@@ -11,7 +11,6 @@ header["title"] = "Edit Profile"
 
 if employee_id:
     header["homeUrl"] = "http://localhost/profiles.py"
-    # header["homeUrl"] = "#"
     user = execute(BaseClass.user_name(employee_id))["fetchall"][0]
     user_name = user["firstName"] + ' ' + user["lastName"]
     top_right_link = '<a href="http://localhost/logout.py">Logout</a>'
