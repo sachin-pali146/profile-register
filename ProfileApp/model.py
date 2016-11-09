@@ -3,18 +3,49 @@ import re
 from utils import generate_hash,generate_password
 
 
-class BaseClass:
+class BaseClass(object):
+    # name = None
 
-    @staticmethod
-    def user_name(user):
+    def insert(self, dict_value):
+        columns = []
+        values = []
+        for key, value in dict_value.items():
+            columns.append(key)
+            values.append(value)
+        values = tuple(values)
+        query = "INSERT INTO %s (" % self.name + ", ".join(columns) + ") VALUES(" + ", ".join(["%s"]*len(columns)) + ")"
+        return [query, values]
 
-        """
-        Returns SQL query array having all the columns for given user
-        :param user: user id of the user whose details needed to be fetched
-        :return: SQL query array
-        """
+    def select(self, columns, condition=None):
+        print(self.name)
+        query = "SELECT %s from %s"
 
-        return ["SELECT firstName,lastName FROM employee WHERE id=%s", (user,)]
+        if condition:
+            query += " WHERE %s"
+        return [query, (', '.join(columns), self.name, condition,)]
+
+    def update(self, column_dict, condition):
+        query = "UPDATE %s SET " % self.name
+        columns = []
+        values = []
+        for key, value in column_dict.items():
+            columns.append("%s = " % key + "%s")
+            values.append(value)
+        query += ', '.join(columns)
+
+        if condition:
+            query += " WHERE %s"
+            values += condition
+        values = tuple(values)
+
+        return [query, values]
+
+    def delete(self, condition):
+        query = "DELETE FROM %s"
+
+        if condition:
+            query += " WHERE %s"
+        return [query, (self.name, condition,)]
 
     @staticmethod
     def select_all(user):
@@ -56,7 +87,9 @@ class BaseClass:
         return query
 
 
-class Employee:
+class Employee(BaseClass):
+    name = 'employee'
+
     def __init__(self, employee):
 
         """
@@ -109,28 +142,29 @@ class Employee:
 
         return self.flag
 
-
-    def delete_employee(self, id):
-        """
-        This function create delete query.
-        :param id: id of the field which needs to be deleted
-        :return: delete query
-        """
-        self.query = "DELETE FROM employee WHERE ID=%s" % id
-        return self.query
-
     def insert_employee(self):
         """
         This function create update query for employee table
         :return: insert query
         """
         if self.validation():
-
-            return ["INSERT INTO employee (firstName,lastName,email, dob, prefix, employment, employer, " \
-                    "maritalStatus, preferCommun,password)" \
-                    "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
-                    (self.first_name, self.last_name, self.email, self.dob,
-                     self.prefix, self.employment, self.employer, self.marital_status, self.prefer_commun, self.password,)]
+            columns={
+                'firstName':self.first_name,
+                'lastName':self.last_name,
+                'email':self.email,
+                'dob': self.dob,
+                'prefix':self.prefix,
+                'employment':self.employment,
+                'employer':self.employer,
+                'maritalStatus':self.marital_status,
+                'preferCommun':self.prefer_commun
+            }
+            return self.insert(columns)
+            # return ["INSERT INTO employee (firstName,lastName,email, dob, prefix, employment, employer, " \
+            #         "maritalStatus, preferCommun)" \
+            #         "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+            #         (self.first_name, self.last_name, self.email, self.dob,
+            #          self.prefix, self.employment, self.employer, self.marital_status, self.prefer_commun,)]
         else:
             raise ValueError('Some fields failed validation.')
 
@@ -173,8 +207,9 @@ class Employee:
         return ["UPDATE employee SET image_extension=%s WHERE id=%s", (image_ext, id,)]
 
 
-class EmployeeAddress:
+class EmployeeAddress(BaseClass):
     def __init__(self, employee):
+        self.name = 'empAddress'
         self.street = employee['homeStreet']
         self.city = employee['homeCity']
         self.state = employee['homeState']
