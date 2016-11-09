@@ -128,10 +128,10 @@ profileApp.validator = {
             helpSpan.insertBefore('#validate');
         }
     },
-    setData: function (user_data){
+    setData: function (user_data) {
         this.inputElements.each(function () {
-            if (user_data[this.id]){
-                this.value=user_data[this.id];
+            if (user_data[this.id]) {
+                this.value = user_data[this.id];
             }
         });
     }
@@ -156,6 +156,10 @@ $(document).ready(function () {
             return false;
         }
     });
+
+});
+
+$(document).ready(function () {
     $('#profileDataSubmit').click(function () {
         //get file object
         var file = document.getElementById('profileFile').files[0];
@@ -176,9 +180,6 @@ $(document).ready(function () {
             };
         }
     });
-
-
 });
-
 
 

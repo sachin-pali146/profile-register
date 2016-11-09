@@ -4,7 +4,6 @@ from utils import generate_hash,generate_password
 
 
 class BaseClass(object):
-    # name = None
 
     def insert(self, dict_value):
         columns = []
@@ -160,11 +159,6 @@ class Employee(BaseClass):
                 'preferCommun':self.prefer_commun
             }
             return self.insert(columns)
-            # return ["INSERT INTO employee (firstName,lastName,email, dob, prefix, employment, employer, " \
-            #         "maritalStatus, preferCommun)" \
-            #         "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)",
-            #         (self.first_name, self.last_name, self.email, self.dob,
-            #          self.prefix, self.employment, self.employer, self.marital_status, self.prefer_commun,)]
         else:
             raise ValueError('Some fields failed validation.')
 
