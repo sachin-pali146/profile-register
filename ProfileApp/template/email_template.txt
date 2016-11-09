@@ -1,0 +1,10 @@
+<html>
+  <head></head>
+  <body>
+    <p>Hi %(user_name)s<br>
+       Thank you for registering with us<br>
+       Please click on the <a href="%(activation_url)s">link</a> to confirm your account.<br>
+       Your temporary password is: <strong>%(temp_password)s</strong>
+    </p>
+  </body>
+</html>

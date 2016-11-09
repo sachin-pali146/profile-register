@@ -37,9 +37,6 @@ $(document).ready(function () {
             })
             .append($('<span/>').attr('aria-hidden', 'true').html('&laquo;'));
 
-        $(aPrev).click(function () {
-            getUsers(Number(_page) - 1);
-        });
 
         var prevLink = $('<li/>').append(aPrev);
         $('.pagination').append(prevLink);
@@ -53,12 +50,6 @@ $(document).ready(function () {
         }
 
         var aPage = $('<a/>').attr('href', urlpath + i.toString()).text(i + 1);
-
-        $(aPage).click(function (i) {
-            return function () {
-                getUsers(i);
-            }
-        }(i));
         var page = $('<li/>').append(aPage);
 
         if ((_page) === i) {
@@ -74,15 +65,10 @@ $(document).ready(function () {
             }, {
                 'aria-label': 'Next'
             })
-            .append($('<span/>').attr('aria-hidden', 'true').html('&raquo;').click(function () {
-                getUsers(Number(_page) + 1);
-            })));
+            .append($('<span/>').attr('aria-hidden', 'true').html('&raquo;')));
         $('.pagination').append(nextLink);
     }
-},
-            error: function (error) {
-                console.log(error);
-            }
+}
         });
     }
 
