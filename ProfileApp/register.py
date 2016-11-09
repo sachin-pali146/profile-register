@@ -19,7 +19,7 @@ if os.environ['REQUEST_METHOD'] == 'GET':
     f = open('./template/header.html')
     print(f.read() % header)
     f.close()
-    f = open('./template/index.html')
+    f = open('./template/register.html')
     print(f.read())
     f.close()
     f = open('./template/footer.html')
