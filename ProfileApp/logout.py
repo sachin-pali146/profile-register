@@ -6,15 +6,16 @@ import cgi
 import cgitb
 import os
 
-from session import delete_cookie, current_user
+from session import Session
 
 cgitb.enable()
 form = cgi.FieldStorage()
-user = current_user()
+session = Session()
+user = session.current_user()
 
 if user:
     if os.environ['REQUEST_METHOD'] == 'GET':
-        logout = delete_cookie()
+        logout = session.delete_cookie()
         if logout:
             print(logout)
         print("Location: http://localhost/login.py\n")

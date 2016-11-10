@@ -9,20 +9,21 @@ import os
 
 from connection import execute
 from model import BaseClass
-from session import current_user
+from session import Session
 
 config = configparser.ConfigParser()
 config.read('constants.cnf')
 cgitb.enable()
 form = cgi.FieldStorage()
-user = str(current_user())
+session = Session()
+employee_id = session.current_user()
 header = dict()
 header["title"] = "User Settings"
 header["css_version"] = config.get("version", "css")
 footer = {
     "js_version": config.get("version", "css")
 }
-if user:
+if employee_id:
     if os.environ['REQUEST_METHOD'] == 'GET':
         header["homeUrl"] = "http://localhost/profiles.py"
         user = execute(BaseClass.user_name(employee_id))["fetchall"][0]
@@ -43,7 +44,7 @@ if user:
         f.close()
     elif os.environ['REQUEST_METHOD'] == 'POST':
         u = BaseClass
-        user_values = execute(u.select_all(user))["fetchall"][0]
+        user_values = execute(u.select_all(employee_id))["fetchall"][0]
         old_password = form.getvalue('oldPassword')
         new_password = form.getvalue('newPassword')
         confirm_password = form.getvalue('confirmPassword')
@@ -57,7 +58,7 @@ if user:
                 updated_values = dict()
                 updated_values["password"] = new_password
                 updated_values["profile_status"] = profile_status
-                execute(u.update_user_setting(updated_values, user))
+                execute(u.update_user_setting(updated_values, employee_id))
                 print("Location: http://localhost/user_settings.py\n")
             else:
                 print("Content-type: text/html\n")

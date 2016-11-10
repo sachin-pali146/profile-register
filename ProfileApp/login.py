@@ -8,12 +8,14 @@ import configparser
 import os
 
 from connection import login
-from session import session, current_user
+from session import Session
 
 config = configparser.ConfigParser()
 config.read('constants.cnf')
 cgitb.enable()
 form = cgi.FieldStorage()
+session = Session()
+current_user = session.current_user()
 header = dict()
 header["title"] = "Login"
 header["homeUrl"] = "http://localhost/register.py"
@@ -23,7 +25,7 @@ footer = {
     "js_version": config.get("version", "css")
 }
 if os.environ['REQUEST_METHOD'] == 'GET':
-    if current_user():
+    if current_user:
         print("Location: http://localhost/edit_profile.py\n")
     else:
         print("Content-type: text/html\n")
@@ -43,7 +45,7 @@ elif os.environ['REQUEST_METHOD'] == 'POST':
 
     if user:
         if user["password"] == form_password:
-            session(user)
+            session.session(user)
         else:
             print("Location: http://localhost/edit_profile.py\n")
             print('Check the password')

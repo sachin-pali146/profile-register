@@ -9,13 +9,14 @@ import os
 
 from connection import execute
 from model import Employee, BaseClass
-from session import current_user
+from session import Session
 from utils import get_formvalues, save_uploaded_file
 
 cgitb.enable()
 config = configparser.ConfigParser()
 config.read('constants.cnf')
-employee_id = current_user()
+session = Session()
+employee_id = session.current_user()
 header = dict()
 header["title"] = "Edit Profile"
 header["css_version"] = config.get("version", "css")
