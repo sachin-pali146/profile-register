@@ -1,12 +1,13 @@
 #!/usr/bin/python3
+"""
+Creates connection with database and run SQL queries.
+"""
 
 import mysql.connector
 from mysql.connector import Error
 
 
-
 def connect():
-
     """
     Creates mysql connection object
     :return: connection object
@@ -43,7 +44,6 @@ def execute(query):
 
 
 def login(email_id):
-
     """
     Function is used to get user id and password details
     :param email_id: email id of user
@@ -55,7 +55,7 @@ def login(email_id):
         conn = connect()
         if conn.is_connected():
             cursor = conn.cursor(dictionary=True, buffered=True)
-            cursor.execute("SELECT id,password,active from employee where email=%s", (email_id,))
+            cursor.execute("SELECT id,password,active FROM employee WHERE email=%s", (email_id,))
             result = cursor.fetchone()
             return result
     except Error as e:
@@ -66,7 +66,6 @@ def login(email_id):
 
 
 def public_profile(query):
-
     """
     Function is used to get all the public profiles
     :param query: SQL query for the public profiles
@@ -91,7 +90,6 @@ def public_profile(query):
 
 
 def activate(email_id):
-
     """
     Function is used to activate profile of new users
     :param email_id: email id of user
@@ -103,7 +101,7 @@ def activate(email_id):
         conn = connect()
         if conn.is_connected():
             cursor = conn.cursor(dictionary=True, buffered=True)
-            cursor.execute("UPDATE employee SET active = TRUE where email = %s", (email_id,))
+            cursor.execute("UPDATE employee SET active = TRUE WHERE email = %s", (email_id,))
             result = cursor.lastrowid
             conn.commit()
             return result

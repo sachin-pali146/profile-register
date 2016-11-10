@@ -1,13 +1,16 @@
 #!/usr/bin/python3
+"""
+Create session files and cookies for current sessions.
+"""
 import os
 import pickle
 import time
 from http import cookies
+
 from utils import generate_hash
 
 
 def print_headers(headers):
-
     """
     print html headers
     :param headers: dictionary having html header details
@@ -17,12 +20,12 @@ def print_headers(headers):
     for k, v in headers.items():
         print('%s: %s;\n' % (k, v))
 
+
 if not os.path.exists('.sessions'):
     os.mkdir('.sessions')
 
 
 def create_cookie(session_obj):
-
     """
     Create cookie for current session.
     :param session_obj: dictionary having the current user id.
@@ -38,9 +41,8 @@ def create_cookie(session_obj):
 
 
 def delete_cookie():
-
     """
-    Deletes the current cookie
+    Deletes the current cookie.
     """
 
     c = cookies.SimpleCookie(os.environ['HTTP_COOKIE'])
@@ -52,7 +54,6 @@ def delete_cookie():
 
 
 def current_user():
-
     """
     Fetch the current user id.
     :return: user id.
@@ -71,9 +72,8 @@ def current_user():
 
 
 def session(user):
-
     """
-    Create session
+    Create session.
     :param user: user id
     """
 

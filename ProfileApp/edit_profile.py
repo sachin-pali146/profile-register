@@ -1,15 +1,16 @@
 #!/usr/bin/python3
-
-import os
+"""
+Shows the current user profile edit details page and save edited information in database.
+"""
 import cgi
 import cgitb
 import configparser
+import os
 
-from session import current_user
-from model import Employee,BaseClass
 from connection import execute
+from model import Employee, BaseClass
+from session import current_user
 from utils import get_formvalues, save_uploaded_file
-
 
 cgitb.enable()
 config = configparser.ConfigParser()
@@ -27,7 +28,8 @@ if employee_id:
     if os.environ['REQUEST_METHOD'] == 'GET':
         form = cgi.FieldStorage()
         employee_query = execute(["SELECT firstName, lastName, email, dob, image_extension, preferCommun, prefix,"
-                                 " maritalStatus, employer,employment FROM employee where id=%s", (str(employee_id),)])["fetchall"][0]
+                                  " maritalStatus, employer,employment FROM employee WHERE id=%s",
+                                  (str(employee_id),)])["fetchall"][0]
         employee_columns = {
             "firstName": employee_query["firstName"],
             "lastName": employee_query["lastName"],
@@ -54,7 +56,7 @@ if employee_id:
         employee_columns[employee_columns["maritalStatus"]] = "selected"
         print("Content-type: text/html\n")
         f = open('./template/header.html', encoding='utf-8')
-        print(f.read() %header)
+        print(f.read() % header)
         f.close()
         f = open('./template/edit_profile.html')
         print(f.read() % employee_columns)
@@ -71,7 +73,7 @@ if employee_id:
         execute(update_query)
         if dict_fields['photo'].filename:
             image_ext = dict_fields['photo'].filename.split('.')[-1]
-            image_name = employee_id+'.'+image_ext
+            image_name = employee_id + '.' + image_ext
             image_query = e.set_image(image_ext, employee_id)
             execute(image_query)
             save_uploaded_file(dict_fields['photo'], config.get('profile', 'path'), image_name)

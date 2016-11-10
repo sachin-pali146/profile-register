@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-
+"""
+Read the user data sent by ajax call and returns the proper date in JSON format.
+"""
 import cgi
 import json
 import os
@@ -8,7 +10,6 @@ form = cgi.FieldStorage()
 profile_file = form.getvalue("profile")
 values = dict()
 print("Content-type: text/html\n")
-# print(profile_file)
 valid_values = {
     "First Name": "firstName",
     "Last Name": "lastName",

@@ -1,10 +1,13 @@
 #!/usr/bin/python3
-
+"""
+Checks the user activation link and activate the user if it is not active.
+"""
 import cgi
 import cgitb
 import os
-from utils import generate_hash
+
 from connection import activate, login
+from utils import generate_hash
 
 cgitb.enable()
 form = cgi.FieldStorage()

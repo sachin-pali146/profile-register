@@ -1,13 +1,14 @@
 #!/usr/bin/python3
-
+"""
+Create User settings page from where they can change their password and make their profile public.
+"""
 import cgi
 import cgitb
 import os
 
-from session import session, current_user
-from model import BaseClass
 from connection import execute
-
+from model import BaseClass
+from session import current_user
 
 cgitb.enable()
 form = cgi.FieldStorage()
@@ -36,6 +37,7 @@ if user:
             profile_status = True
         else:
             profile_status = False
+
         if new_password == confirm_password:
             if old_password == user_values["password"]:
                 updated_values = dict()

@@ -1,17 +1,19 @@
 #!/usr/bin/python3
-
+"""
+Have all the utility functions used in profile app.
+"""
 import cgi
 import cgitb
-import shutil
-import os
-import smtplib
+import configparser
 import hashlib
-import string
+import os
 import random
 import re
+import shutil
+import smtplib
+import string
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-import configparser
 
 config = configparser.ConfigParser()
 config.read('constants.cnf')
@@ -19,7 +21,6 @@ cgitb.enable()
 
 
 def get_formvalues():
-
     """
     This function is used to create dictionary for all the fields on Form.
     """
@@ -36,7 +37,6 @@ def get_formvalues():
 
 
 def save_uploaded_file(fileitem, upload_dir, image_name):
-
     """
     Create a copy of profile image on server.
     :param fileitem: uploaded file object
@@ -49,7 +49,7 @@ def save_uploaded_file(fileitem, upload_dir, image_name):
         shutil.copyfileobj(fileitem.file, fout, 100000)
 
 
-def send_email(user_email,activation):
+def send_email(user_email, activation):
     try:
         msg = MIMEMultipart()
         msg['Subject'] = "Activate your account"
@@ -60,7 +60,7 @@ def send_email(user_email,activation):
         body = MIMEText(template.read() % activation, 'html')
         template.close()
         msg.attach(body)
-        
+
         # Send the message via our own SMTP server.
 
         server = smtplib.SMTP(config.get('smtp', 'host'), config.get('smtp', 'port'))
@@ -75,7 +75,8 @@ def send_email(user_email,activation):
 
 def generate_password():
     special = '!@#$%^&*'
-    password = ''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase+special) for _ in range(10))
+    password = ''.join(
+        random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase + special) for _ in range(10))
     matcher = re.compile(r'^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)(?=.*?[!@#\$%\^&\*])[A-Za-z\d!@#\$%\^&\*]{8,}$')
     if matcher.match(password):
         return password

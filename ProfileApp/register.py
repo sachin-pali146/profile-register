@@ -1,10 +1,12 @@
 #!/usr/bin/python3
-
-import os
+"""
+Create register page for new users and save their data in database.
+"""
 import configparser
+import os
 
-from model import Employee
 from connection import execute
+from model import Employee
 from utils import get_formvalues, save_uploaded_file, send_email
 
 config = configparser.ConfigParser()
@@ -34,10 +36,9 @@ elif os.environ['REQUEST_METHOD'] == 'POST':
     last_id = execute(insert_query)["lastrowid"]
     if dict_fields['photo'].filename:
         image_ext = dict_fields['photo'].filename.split('.')[-1]
-        image_name = str(last_id)+'.'+image_ext
+        image_name = str(last_id) + '.' + image_ext
         image_query = e.set_image(image_ext, str(last_id))
         execute(image_query)
         save_uploaded_file(dict_fields['photo'], config.get('profile', 'path'), image_name)
     print("Please click on activation link sent in email in order to complete registration process.")
     send_email(dict_fields["email"], activation)
-

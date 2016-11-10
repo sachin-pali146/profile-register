@@ -1,9 +1,12 @@
 #!/usr/bin/python3
-
+"""
+Displays all the Public profiles
+"""
 import os
+
 from connection import execute
-from session import current_user
 from model import BaseClass
+from session import current_user
 
 employee_id = current_user()
 header = dict()

@@ -1,10 +1,15 @@
 #!/usr/bin/python3
+"""
+Model file for Profile App. It has Base class, employee class and employee address class, which can be used to create
+required objects. And perform basic operations.
+"""
+
 import re
-from utils import generate_hash,generate_password
+
+from utils import generate_hash, generate_password
 
 
 class BaseClass(object):
-
     def insert(self, dict_value):
         columns = []
         values = []
@@ -12,12 +17,13 @@ class BaseClass(object):
             columns.append(key)
             values.append(value)
         values = tuple(values)
-        query = "INSERT INTO %s (" % self.name + ", ".join(columns) + ") VALUES(" + ", ".join(["%s"]*len(columns)) + ")"
+        query = "INSERT INTO %s (" % self.name + ", ".join(columns) + ") VALUES(" + ", ".join(
+            ["%s"] * len(columns)) + ")"
         return [query, values]
 
     def select(self, columns, condition=None):
         print(self.name)
-        query = "SELECT %s from %s"
+        query = "SELECT %s FROM %s"
 
         if condition:
             query += " WHERE %s"
@@ -45,6 +51,17 @@ class BaseClass(object):
         if condition:
             query += " WHERE %s"
         return [query, (self.name, condition,)]
+
+    @staticmethod
+    def user_name(user):
+
+        """
+        Returns SQL query array having all the columns for given user
+        :param user: user id of the user whose details needed to be fetched
+        :return: SQL query array
+        """
+
+        return ["SELECT firstName,lastName FROM employee WHERE id=%s", (user,)]
 
     @staticmethod
     def select_all(user):
@@ -147,16 +164,16 @@ class Employee(BaseClass):
         :return: insert query
         """
         if self.validation():
-            columns={
-                'firstName':self.first_name,
-                'lastName':self.last_name,
-                'email':self.email,
+            columns = {
+                'firstName': self.first_name,
+                'lastName': self.last_name,
+                'email': self.email,
                 'dob': self.dob,
-                'prefix':self.prefix,
-                'employment':self.employment,
-                'employer':self.employer,
-                'maritalStatus':self.marital_status,
-                'preferCommun':self.prefer_commun
+                'prefix': self.prefix,
+                'employment': self.employment,
+                'employer': self.employer,
+                'maritalStatus': self.marital_status,
+                'preferCommun': self.prefer_commun
             }
             return self.insert(columns)
         else:

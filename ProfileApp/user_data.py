@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+"""
+Return all the public profile users data in JSON format.
+"""
 import cgi
 import configparser
 import json
