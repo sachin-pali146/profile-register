@@ -4,18 +4,24 @@ Create login page and check the login credentials and redirect users to appropri
 """
 import cgi
 import cgitb
+import configparser
 import os
 
 from connection import login
 from session import session, current_user
 
+config = configparser.ConfigParser()
+config.read('constants.cnf')
 cgitb.enable()
 form = cgi.FieldStorage()
 header = dict()
 header["title"] = "Login"
 header["homeUrl"] = "http://localhost/register.py"
 header["navTopRight"] = '<li class="active"><a href="http://localhost/register.py">Register Now</a></li>'
-
+header["css_version"] = config.get("version", "css")
+footer = {
+    "js_version": config.get("version", "css")
+}
 if os.environ['REQUEST_METHOD'] == 'GET':
     if current_user():
         print("Location: http://localhost/edit_profile.py\n")
@@ -28,7 +34,7 @@ if os.environ['REQUEST_METHOD'] == 'GET':
         print(f.read())
         f.close()
         f = open('./template/footer.html', encoding="utf_8")
-        print(f.read())
+        print(f.read() % footer)
         f.close()
 elif os.environ['REQUEST_METHOD'] == 'POST':
     form_email = form.getvalue('email')

@@ -18,7 +18,10 @@ config.read('constants.cnf')
 employee_id = current_user()
 header = dict()
 header["title"] = "Edit Profile"
-
+header["css_version"] = config.get("version", "css")
+footer = {
+    "js_version": config.get("version", "css")
+}
 if employee_id:
     header["homeUrl"] = "http://localhost/profiles.py"
     user = execute(BaseClass.user_name(employee_id))["fetchall"][0]
@@ -62,7 +65,7 @@ if employee_id:
         print(f.read() % employee_columns)
         f.close()
         f = open('./template/footer.html', encoding="utf_8")
-        print(f.read())
+        print(f.read() % footer)
         f.close()
 
     elif os.environ['REQUEST_METHOD'] == 'POST':

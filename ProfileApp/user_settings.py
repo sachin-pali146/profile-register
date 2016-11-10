@@ -4,28 +4,42 @@ Create User settings page from where they can change their password and make the
 """
 import cgi
 import cgitb
+import configparser
 import os
 
 from connection import execute
 from model import BaseClass
 from session import current_user
 
+config = configparser.ConfigParser()
+config.read('constants.cnf')
 cgitb.enable()
 form = cgi.FieldStorage()
 user = str(current_user())
-
+header = dict()
+header["title"] = "User Settings"
+header["css_version"] = config.get("version", "css")
+footer = {
+    "js_version": config.get("version", "css")
+}
 if user:
     if os.environ['REQUEST_METHOD'] == 'GET':
+        header["homeUrl"] = "http://localhost/profiles.py"
+        user = execute(BaseClass.user_name(employee_id))["fetchall"][0]
+        user_name = user["firstName"] + ' ' + user["lastName"]
+        top_right_link = '<a href="http://localhost/logout.py">Logout</a>'
+        header["navTopRight"] = '<li class="active"><a>%s</a></li><li class="active">%s</li>' % (
+            user_name, top_right_link)
         print("Content-type: text/html")
         print('')
         f = open('./template/header.html')
-        print(f.read() % {'title': 'User Settings'})
+        print(f.read() % header)
         f.close()
         f = open('./template/user_settings.html')
         print(f.read())
         f.close()
         f = open('./template/footer.html')
-        print(f.read())
+        print(f.read() % footer)
         f.close()
     elif os.environ['REQUEST_METHOD'] == 'POST':
         u = BaseClass

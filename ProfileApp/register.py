@@ -15,7 +15,10 @@ header = dict()
 header["title"] = "Register"
 header["homeUrl"] = "http://localhost/register.py"
 header["navTopRight"] = '<li class="active"><a href="http://localhost/login.py">Login</a></li>'
-
+header["css_version"] = config.get("version", "css")
+footer = {
+    "js_version": config.get("version", "css")
+}
 if os.environ['REQUEST_METHOD'] == 'GET':
     print("Content-type: text/html\n")
     f = open('./template/header.html')
@@ -25,7 +28,7 @@ if os.environ['REQUEST_METHOD'] == 'GET':
     print(f.read())
     f.close()
     f = open('./template/footer.html')
-    print(f.read())
+    print(f.read() % footer)
     f.close()
 elif os.environ['REQUEST_METHOD'] == 'POST':
     print("Content-type:text/html\r\n\r\n")
