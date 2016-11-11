@@ -3,7 +3,6 @@
 Create session files and cookies for current sessions.
 """
 
-
 import os
 import pickle
 import time
@@ -18,7 +17,7 @@ try:
             if 'HTTP_COOKIE' in os.environ.keys():
                 self.cookie = cookies.SimpleCookie(os.environ['HTTP_COOKIE'])
             else:
-                self.cookie = None
+                self.cookie = dict()
 
         def print_headers(self):
             """
@@ -59,14 +58,13 @@ try:
             :return: user id.
             """
 
-            if 'HTTP_COOKIE' in os.environ.keys():
-                if 'session_id' in self.cookie.keys():
-                    session_id = self.cookie['session_id'].value
-                    if os.path.exists(os.path.join('.sessions', session_id)):
-                        session_file = open(os.path.join('.sessions', session_id), 'rb')
-                        session_obj = pickle.load(session_file)
-                        session_file.close()
-                        return session_obj['userid']
+            if 'HTTP_COOKIE' in os.environ.keys() and 'session_id' in self.cookie.keys():
+                session_id = self.cookie['session_id'].value
+                if os.path.exists(os.path.join('.sessions', session_id)):
+                    session_file = open(os.path.join('.sessions', session_id), 'rb')
+                    session_obj = pickle.load(session_file)
+                    session_file.close()
+                    return session_obj['userid']
             return False
 
         def session(self, user):
@@ -84,5 +82,4 @@ try:
                 session_obj['userid'] = user_id
                 self.create_cookie(session_obj)
 except Exception as e:
-    create_log("Session.py : "+str(e))
-
+    create_log("Session.py : " + str(e))

@@ -6,7 +6,7 @@ required objects. And perform basic operations.
 
 import re
 
-from utils import generate_hash, generate_password,create_log
+from utils import generate_hash, generate_password, create_log
 
 try:
     class BaseClass(object):
@@ -85,7 +85,7 @@ try:
             """
 
             query = ["UPDATE employee SET password = %s, public_profile = %s WHERE id=%s",
-                     (values["password"], values["profile_status"], id,)]
+                     (generate_hash(values["password"]), values["profile_status"], id,)]
             return query
 
         @staticmethod
@@ -173,7 +173,8 @@ try:
                     'employment': self.employment,
                     'employer': self.employer,
                     'maritalStatus': self.marital_status,
-                    'preferCommun': self.prefer_commun
+                    'preferCommun': self.prefer_commun,
+                    'password': generate_hash(self.password)
                 }
                 return self.insert(columns)
             else:
@@ -228,4 +229,4 @@ try:
             self.phone = employee['homePhone']
             self.fax = employee['homeFax']
 except Exception as e:
-    create_log("Model.py : "+str(e))
+    create_log("Model.py : " + str(e))

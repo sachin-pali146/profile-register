@@ -3,6 +3,7 @@
 
     <div class="well">
         <form class="form-horizontal" method="post" action="login.py">
+            <input name="csrfToken" type="hidden" value="%(csrf)s">
             <div class="form-group">
                 <label for="email" class="control-label col-sm-3">Email ID :</label>
 

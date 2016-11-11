@@ -13,8 +13,13 @@ import re
 import shutil
 import smtplib
 import string
+import traceback
+from binascii import unhexlify
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+
+import simplecrypt
+from cryptography.fernet import Fernet
 
 
 # from model import BaseClass
@@ -31,6 +36,7 @@ def create_log(error_log):
     log_file.write(error_log)
     log_file.close()
 
+
 try:
 
     config = configparser.ConfigParser()
@@ -43,6 +49,8 @@ try:
 
     def show_404():
         pass
+
+
     #     header["title"] = "Error"
     #     header["css_version"] = config.get("version", "css")
     #     footer = {
@@ -96,10 +104,12 @@ try:
         :param upload_dir: server upload path
         :param image_name: name for image file.
         """
-
-        outpath = os.path.join(upload_dir, image_name)
-        with open(outpath, 'wb') as fout:
-            shutil.copyfileobj(fileitem.file, fout, 100000)
+        try:
+            outpath = os.path.join(upload_dir, image_name)
+            with open(outpath, 'wb') as fout:
+                shutil.copyfileobj(fileitem.file, fout, 100000)
+        except:
+            create_log("Utils.py : save_uploaded_file : " + str(e) + " " + traceback.format_exc())
 
 
     def send_email(user_email, activation):
@@ -119,11 +129,11 @@ try:
             server = smtplib.SMTP(config.get('smtp', 'host'), config.get('smtp', 'port'))
             server.ehlo()
             server.starttls()
-            server.login(config.get('smtp', 'user'), config.get('smtp', 'pass'))
+            server.login(decrypt(config.get('smtp', 'user')), decrypt(config.get('smtp', 'pass')))
             server.send_message(msg)
             server.quit()
         except Exception as e:
-            print(e)
+            create_log("Utils.py : send_email : " + str(e) + " " + traceback.format_exc())
 
 
     def generate_password():
@@ -141,5 +151,55 @@ try:
 
     def generate_hash(input_value):
         return hashlib.new('ripemd160', str(input_value).encode()).hexdigest()
+
+
+    def decrypt(value):
+        try:
+            return simplecrypt.decrypt("}{@shKey", unhexlify(value)).decode()
+        except Exception as e:
+            create_log("Utils.py : decrypt : " + str(e) + " " + traceback.format_exc())
+
+
+    class Csrf(object):
+        config = configparser.ConfigParser()
+        config.read('constants.cnf')
+
+        def __init__(self, userid=0):
+            self.today_date = str(datetime.date.today())
+            self.salt = config.get('csrf', 'salt')
+            self.key = config.get('csrf', 'key').encode()
+            self.time = str(datetime.datetime.now())
+            self.userid = str(userid)
+
+        def generate(self):
+            cipher_suite = Fernet(self.key)
+            cipher_text = cipher_suite.encrypt(
+                bytes('|'.join([self.today_date, self.salt, self.userid, self.time]).encode())).decode()
+            return cipher_text
+
+        def validate_token(self, value):
+            try:
+                cipher_suite = Fernet(self.key)
+                value = cipher_suite.decrypt(bytes(value.encode())).decode().split('|')
+                if value[0] == self.today_date and value[1] == self.salt:
+                    return True
+                else:
+                    return False
+            except Exception as e:
+                create_log("Utils.py : validate_token : " + str(e) + " " + traceback.format_exc())
+                return False
+
+        def validate_token_user(self, value):
+            try:
+                cipher_suite = Fernet(self.key)
+                value = cipher_suite.decrypt(bytes(value.encode())).decode().split('|')
+                if value[0] == self.today_date and value[1] == self.salt and value[2] == self.userid:
+                    return True
+                else:
+                    return False
+            except Exception as e:
+                create_log("Utils.py : validate_token_user : " + str(e) + " " + traceback.format_exc())
+                return False
+
 except Exception as e:
-    create_log("Utils.py : "+str(e))
+    create_log("Utils.py : " + str(e) + " " + traceback.format_exc())
