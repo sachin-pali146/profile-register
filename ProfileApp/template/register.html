@@ -4,20 +4,21 @@
     </div>
     <div class="container">
         <div class="col-sm-4">
-        <label for="profileFile" class="control-label">Upload Profile Information from CSV file<br> <a href="http://localhost/static/other/Sample.csv">Sample File</a> </label>
-            </div>
+            <label for="profileFile" class="control-label">Upload Profile Information from CSV file<br> <a
+                    href="http://localhost/static/other/Sample.csv">Sample File</a> </label>
+        </div>
         <div class="col-sm-5">
-        <input name="profileFile" class="btn btn-file" type="file" id="profileFile" accept=".csv">
-            </div>
+            <input name="profileFile" class="btn btn-file" type="file" id="profileFile" accept=".csv">
+        </div>
         <div class="col-sm-3">
-        <input value="Upload" class="btn btn-file btn-default" id="profileDataSubmit">
-            </div>
+            <input value="Upload" class="btn btn-file btn-default" id="profileDataSubmit">
+        </div>
     </div>
     <br>
     <div class="well">
 
         <form class="form-horizontal" method="post" action="register.py" enctype="multipart/form-data">
-
+            <input name="csrfToken" type="hidden" value="%(csrf)s">
             <div class="form-group">
                 <label for="prefix" class="control-label col-sm-3">Prefix :</label>
 

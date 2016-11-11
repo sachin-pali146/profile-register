@@ -2,6 +2,8 @@
 """
 Creates connection with database and run SQL queries.
 """
+import configparser
+
 import mysql.connector
 from mysql.connector import Error
 
@@ -14,12 +16,14 @@ def connect():
     :return: connection object
     """
     try:
-        conn = mysql.connector.connect(option_files='constants.cnf')
-        print(conn)
+        config = configparser.ConfigParser()
+        config.read('constants.cnf')
+        conn = mysql.connector.connect(host=config.get('client', 'host'), database=config.get('client', 'database'),
+                                       user=config.get('client', 'user'),
+                                       password=config.get('client', 'password'))
         return conn
     except Error as e:
-        create_log("Connection.py : "+str(e))
-
+        create_log("Connection.py : connect : " + str(e))
 
 
 def execute(query):
@@ -42,9 +46,7 @@ def execute(query):
             return output
 
     except Error as e:
-        create_log("Connection.py : "+str(e))
-
-
+        create_log("Connection.py : execute : " + str(e))
     finally:
         conn.close()
 
@@ -65,11 +67,9 @@ def login(email_id):
             result = cursor.fetchone()
             return result
     except Error as e:
-        create_log("Connection.py : "+str(e))
-        show_404()
-
-        # finally:
-        # conn.close()
+        create_log("Connection.py : login : " + str(e))
+    finally:
+        conn.close()
 
 
 def public_profile(query):
@@ -90,7 +90,7 @@ def public_profile(query):
             conn.commit()
             return output
     except Error as e:
-        create_log("Connection.py : "+str(e))
+        create_log("Connection.py : public_profile : " + str(e))
     finally:
         conn.close()
 
@@ -112,7 +112,7 @@ def activate(email_id):
             conn.commit()
             return result
     except Error as e:
-        create_log("Connection.py : "+str(e))
+        create_log("Connection.py : activate : " + str(e))
 
     finally:
         conn.close()

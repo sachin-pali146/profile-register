@@ -11,66 +11,68 @@ $(document).ready(function () {
             type: 'GET',
             success: function (res) {
 
-    var itemsPerPage = 10;
-    var urlpath = 'http://localhost/profiles.py?page='
-    var userObj = JSON.parse(res);
-    var total = userObj['total'];
-    var pageCount = total / itemsPerPage;
-    var pageRem = total % itemsPerPage;
-    if (pageRem !== 0) {
-        pageCount = Math.floor(pageCount) + 1;
-    }
+                var itemsPerPage = 10;
+                var urlpath = 'http://localhost/profiles.py?page='
+                var userObj = JSON.parse(res);
+                var total = userObj['total'];
+                var pageCount = total / itemsPerPage;
+                var pageRem = total % itemsPerPage;
+                if (pageRem !== 0) {
+                    pageCount = Math.floor(pageCount) + 1;
+                }
 
-    $('#userTable > tbody').empty();
-    $.each(userObj["data"], function (index) {
-        $('#userTable >tbody').append("<tr><td>" + userObj['data'][index]['image_extension'] + "</td><td>" + userObj['data'][index]['firstName'] + "</td><td>" + userObj['data'][index]['lastName'] + "</td><td>" + userObj['data'][index]['employment'] + "</td><td>" + userObj['data'][index]['employer'] + "</td><td>" + userObj['data'][index]['email'] + "</td></tr>");
+                $('#userTable > tbody').empty();
+                $.each(userObj["data"], function (index) {
+                    $('#userTable >tbody').append("<tr><td>" + userObj['data'][index]['image_extension'] + "</td><td>" + userObj['data'][index]['firstName'] + "</td><td>" + userObj['data'][index]['lastName'] + "</td><td>" + userObj['data'][index]['employment'] + "</td><td>" + userObj['data'][index]['employer'] + "</td><td>" + userObj['data'][index]['email'] + "</td></tr>");
 
-    });
+                });
 
-    $('.pagination').empty();
+                $('.pagination').empty();
 
-    if (_page > 0) {
-        var aPrev = $('<a/>').attr({
-                'href': urlpath + (parseInt(_page) - 1).toString()
-            }, {
-                'aria-label': 'Previous'
-            })
-            .append($('<span/>').attr('aria-hidden', 'true').html('&laquo;'));
-
-
-        var prevLink = $('<li/>').append(aPrev);
-        $('.pagination').append(prevLink);
-    }
+                if (_page > 0) {
+                    var aPrev = $('<a/>').attr({
+                            'href': urlpath + (parseInt(_page) - 1).toString()
+                        }, {
+                            'aria-label': 'Previous'
+                        })
+                        .append($('<span/>').attr('aria-hidden', 'true').html('&laquo;'));
 
 
-    for (var i = 0; i < Number(pageCount); i++) {
+                    var prevLink = $('<li/>').append(aPrev);
+                    $('.pagination').append(prevLink);
+                }
 
-        if (i > pageCount) {
-            break;
-        }
 
-        var aPage = $('<a/>').attr('href', urlpath + i.toString()).text(i + 1);
-        var page = $('<li/>').append(aPage);
+                for (var i = 0; i < Number(pageCount); i++) {
 
-        if ((_page) === i) {
-            $(page).attr('class', 'active');
-        }
+                    if (i > pageCount) {
+                        break;
+                    }
 
-        $('.pagination').append(page);
-    }
+                    var aPage = $('<a/>').attr('href', urlpath + i.toString()).text(i + 1);
+                    var page = $('<li/>').append(aPage);
 
-    if ((Number(_page) + 1) < pageCount) {
-        var nextLink = $('<li/>').append($('<a/>').attr({
-                'href': urlpath + (Number(_page) + 1)
-            }, {
-                'aria-label': 'Next'
-            })
-            .append($('<span/>').attr('aria-hidden', 'true').html('&raquo;')));
-        $('.pagination').append(nextLink);
-    }
-}
+                    if ((_page) === i) {
+                        $(page).attr('class', 'active');
+                    }
+
+                    $('.pagination').append(page);
+                }
+
+                if ((Number(_page) + 1) < pageCount) {
+                    var nextLink = $('<li/>').append($('<a/>').attr({
+                            'href': urlpath + (Number(_page) + 1)
+                        }, {
+                            'aria-label': 'Next'
+                        })
+                        .append($('<span/>').attr('aria-hidden', 'true').html('&raquo;')));
+                    $('.pagination').append(nextLink);
+                }
+            }
         });
     }
 
-    getUsers(page)
+    if ($(document).has('table').length === 1) {
+        getUsers(page)
+    }
 })

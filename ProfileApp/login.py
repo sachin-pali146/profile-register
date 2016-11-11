@@ -10,7 +10,7 @@ import os
 
 from connection import login
 from session import Session
-from utils import create_log, show_404
+from utils import create_log, show_404, generate_hash, Csrf
 
 try:
     config = configparser.ConfigParser()
@@ -19,6 +19,9 @@ try:
     form = cgi.FieldStorage()
     session = Session()
     current_user = session.current_user()
+    token = Csrf()
+    form_csrf = dict()
+    form_csrf["csrf"] = token.generate()
     header = dict()
     header["title"] = "Login"
     header["homeUrl"] = "http://localhost/register.py"
@@ -36,7 +39,7 @@ try:
             print(f.read() % header)
             f.close()
             f = open('./template/login.html')
-            print(f.read())
+            print(f.read() % form_csrf)
             f.close()
             f = open('./template/footer.html', encoding="utf_8")
             print(f.read() % footer)
@@ -45,16 +48,24 @@ try:
         form_email = form.getvalue('email')
         form_password = form.getvalue('password')
         user = login(form_email)
+        if "csrfToken" in form.keys():
+            form_token = form.getvalue("csrfToken")
+        else:
+            form_token = ''
 
-        if user:
-            if user["password"] == form_password:
-                session.session(user)
+        if token.validate_token(form_token):
+            if user:
+                if user["password"] == generate_hash(form_password):
+                    session.session(user)
+                else:
+                    print("Location: http://localhost/edit_profile.py\n")
+                    print('Check the password')
             else:
                 print("Location: http://localhost/edit_profile.py\n")
-                print('Check the password')
+                print('Check the username')
         else:
-            print("Location: http://localhost/edit_profile.py\n")
-            print('Check the username')
+            create_log("Login.py : Someone Tried CSRF")
+            print("Location: http://localhost/login.py\n")
 except Exception as e:
-    create_log("Login.py : "+str(e))
+    create_log("Login.py : " + str(e))
     show_404()
