@@ -31,13 +31,13 @@ profileApp.validator = {
     phoneChecker: ['homePhone', 'homeFax', 'officePhone', 'officeFax'],
     addressChecker: ['homeStreet', 'officeStreet'],
     pinChecker: ['homePin', 'officePin'],
-    passwordChecker: ['password','newPassword','oldPassword','confirmPassword'],
+    passwordChecker: ['password', 'newPassword', 'oldPassword', 'confirmPassword'],
     setDefaultImage: function () {
         if ($('#prefix').val() === "master" || $('#prefix').val() === "mr") {
             $('#photo').attr('src', '../img/male.png');
         }
         else if ($('#prefix').val() === "miss" || $('#prefix').val() === "mrs") {
-            $('#photo').attr('src','../img/female.png');
+            $('#photo').attr('src', '../img/female.png');
         }
     },
     validateInput: function (input) {
@@ -84,8 +84,7 @@ profileApp.validator = {
     },
     addErrorClass: function (currentParentElement) {
         currentParentElement.addClass('has-feedback has-error');
-        $('<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>').
-            appendTo(currentParentElement);
+        $('<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>').appendTo(currentParentElement);
         this.flag += 1;
     },
     removeErrorClass: function (currentParentElement) {
@@ -128,6 +127,13 @@ profileApp.validator = {
             var helpSpan = $('<span id="helpBlock" class="help-block text-danger block-center">Please correct the columns with errors.</span>');
             helpSpan.insertBefore('#validate');
         }
+    },
+    setData: function (user_data) {
+        this.inputElements.each(function () {
+            if (user_data[this.id]) {
+                this.value = user_data[this.id];
+            }
+        });
     }
 };
 
@@ -151,8 +157,29 @@ $(document).ready(function () {
         }
     });
 
-
 });
 
+$(document).ready(function () {
+    $('#profileDataSubmit').click(function () {
+        //get file object
+        var file = document.getElementById('profileFile').files[0];
+        if (file) {
+            // create reader
+            var reader = new FileReader();
+            reader.readAsText(file);
+            reader.onload = function (value) {
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost/read_data.py",
+                    data: "profile=" + value.target.result,
+                    success: function (result) {
+                        var user_data = $.parseJSON(result);
+                        profileApp.validator.setData(user_data);
+                    }
+                });
+            };
+        }
+    });
+});
 
 

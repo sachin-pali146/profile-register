@@ -1,5 +1,19 @@
 <div class="container">
-    <h1>Edit Your Details.</h1>
+    <div>
+        <h1>Edit Your Details</h1>
+    </div>
+    <div class="container">
+        <div class="col-sm-4">
+        <label for="profileFile" class="control-label">Upload Profile Information from CSV file<br> <a href="http://localhost/static/other/Sample.csv">Sample File</a> </label>
+            </div>
+        <div class="col-sm-5">
+        <input name="profileFile" class="btn btn-file" type="file" id="profileFile" accept=".csv">
+            </div>
+        <div class="col-sm-3">
+        <input value="Upload" class="btn btn-file btn-default" id="profileDataSubmit">
+            </div>
+    </div>
+    <br>
 
     <div class="well">
         <form class="form-horizontal" method="post" action="edit_profile.py" enctype="multipart/form-data">
